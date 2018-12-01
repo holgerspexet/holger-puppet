@@ -1,0 +1,3 @@
+node 'holgerspexet' {
+  include ::holger
+}
