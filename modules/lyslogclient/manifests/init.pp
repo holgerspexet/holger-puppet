@@ -22,6 +22,6 @@ class lyslogclient
       ensure  => present,
       command => '/usr/bin/logger mark',
       user    => root,
-      minute  => 43,
+      minute  => 33,
   }
 }
