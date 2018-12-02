@@ -17,6 +17,7 @@ git pull > /dev/null || exit 1
 git submodule update --recursive --remote > /dev/null  || exit 1
 
 # Run puppet and hope all is well
+uptime >> /root/last_puppet_run.log
 puppet apply --modulepath=/opt/holger-puppet/modules/ /opt/holger-puppet/manifests/site.pp >> /root/last_puppet_run.log
 
 
