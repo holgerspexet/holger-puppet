@@ -1,5 +1,4 @@
 class holger::certificates {
-  include nginx
   class { '::letsencrypt':
     email => 'hx@hx.ax', # Putting in my personal email for now
     
@@ -10,6 +9,6 @@ class holger::certificates {
                  'holgerspexet.lysator.liu.se'],
     manage_cron => true,
     suppress_cron_output => true,
-    notify => Service['nginx'],
+    cron_success_command => '/bin/systemctl restart nginx',
   }
 }
