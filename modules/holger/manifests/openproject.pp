@@ -28,6 +28,11 @@ class holger::openproject {
     ssl_cert  => '/etc/letsencrypt/live/insidan.holgerspexet.se/fullchain.pem',
     ssl_key  => '/etc/letsencrypt/live/insidan.holgerspexet.se/privkey.pem',
 
+    # Forward secret stuff
+    proxy_set_header => [ "X-Forwarded-Proto \$scheme", 
+                          "X-Forwarded-Host \$host",
+                          "X-Forwarded-Server \$host",
+                          "X-Forwarded-For \$proxy_add_x_forwarded_for", ], 
     # Set the paranoia level to 'high'.
     ssl_protocols => 'TLSv1.2',
     ssl_ciphers =>  'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256',
