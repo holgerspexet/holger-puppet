@@ -6,6 +6,7 @@ class holger {
 
   package { ['fail2ban',
              'unattended-upgrades',
+             'jekyll',
              'openssh-server',
             ]:
               ensure => 'latest',
