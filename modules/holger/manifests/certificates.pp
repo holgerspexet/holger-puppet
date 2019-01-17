@@ -5,7 +5,8 @@ class holger::certificates {
 
   letsencrypt::certonly { 'insidan.holgerspexet.se':
     domains => [ 'insidan.holgerspexet.se',
-                 'holgerspexet.lysator.liu.se'],
+                 'holgerspexet.lysator.liu.se',
+                 'holgerspexet.se'],
     suppress_cron_output => true,
     cron_success_command => '/bin/systemctl restart nginx',
   }
