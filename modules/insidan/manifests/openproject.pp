@@ -1,4 +1,4 @@
-class holger::openproject {
+class insidan::openproject {
   include nginx
   include holger::certificates
   # This is horrible. Please fix.
@@ -41,7 +41,7 @@ class holger::openproject {
 
   file { '/opt/openproject/public/assets/logo_openproject_white_big-2c6d79fa03613154cf6bd67c622dbae5b93ed3199e0e7332d96b6f8ec21f85a1.png':
     ensure => file,
-    source => 'puppet:///modules/holger/holgerlogga.png'
+    source => 'puppet:///modules/insidan/holgerlogga.png'
   }
 
 }

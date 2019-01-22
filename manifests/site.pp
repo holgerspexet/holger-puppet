@@ -1,7 +1,7 @@
 node 'holgerspexet' {
   require ::baseinstall
   require ::puppetfetch
-  include ::holger
+  include ::insidan
 }
 
 node 'holgerspexet-public' {

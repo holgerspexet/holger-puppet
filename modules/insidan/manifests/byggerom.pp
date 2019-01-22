@@ -1,4 +1,4 @@
-class holger::byggerom {
+class insidan::byggerom {
   include nginx
   # Setup Nginx
   nginx::resource::server { 'holgerspexet.se':
@@ -26,6 +26,6 @@ class holger::byggerom {
     ensure => directory,
     recurse => true,
     mode => '0744',
-    source => 'puppet:///modules/holger/byggerom/',
+    source => 'puppet:///modules/insidan/byggerom/',
   }
 }

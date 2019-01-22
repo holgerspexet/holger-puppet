@@ -1,4 +1,4 @@
-class holger::certificates {
+class insidan::certificates {
   class { '::letsencrypt':
     email => 'hx@hx.ax', # Putting in my personal email for now
   }
