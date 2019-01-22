@@ -1,6 +1,6 @@
 class insidan::openproject {
   include nginx
-  include holger::certificates
+  include insidan::certificates
   # This is horrible. Please fix.
   exec { 'install openproject repos':
     command => 'bash -e wget -qO- https://dl.packager.io/srv/opf/openproject-ce/key | apt-key add -; sudo wget -O /etc/apt/sources.list.d/openproject-ce.list
