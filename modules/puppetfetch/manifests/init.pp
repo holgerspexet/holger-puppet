@@ -1,9 +1,9 @@
-class holger::puppetfetch {
+class puppetfetch {
   file { '/opt/puppetfetcher.sh':
     owner  => 'root',
     group  => 'root',
     mode   => '744',
-    source => 'puppet:///modules/holger/puppetfetcher.sh',
+    source => 'puppet:///modules/puppetfetch/puppetfetcher.sh',
   }
   cron { 'puppetfetcher':
     ensure  => present,

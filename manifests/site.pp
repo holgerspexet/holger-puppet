@@ -1,5 +1,6 @@
 node 'holgerspexet' {
   require ::baseinstall
+  require ::puppetfetch
   include ::holger
 }
 
