@@ -15,9 +15,24 @@ class wordpress {
   include apache::mod::rewrite
   include apache::mod::php
 
-  apache::vhost { 'holgerspexet-public.lysator.liu.se':
-    port    => '8080',
+  apache::vhost { 'holgerspexet-public.lysator.liu.se ssl':
+    servername => 'holgerspexet-public.lysator.liu.se',
+    port    => '443',
     docroot => '/srv/holgerspexet-wordpress',
+    ssl   => true,
+    ssl_cert  => '/etc/letsencrypt/live/holgerspexet.se/fullchain.pem',
+    ssl_key  => '/etc/letsencrypt/live/holgerspexet.se/privkey.pem',
   }
 
+  apache::vhost { 'holgerspexet-public.lysator.liu.se non-ssl':
+    servername => 'holgerspexet-public.lysator.liu.se',
+    port => '80',
+    docroot => '/var/www/redirect',
+    redirect_status => 'permanent',
+    redirect_dest => 'https://holgerspexet-public.lysator.liu.se',
+  }
+
+  class { '::letsencrypt':
+    email => 'hx@hx.ax', # Putting in my personal email for now
+  }
 }
