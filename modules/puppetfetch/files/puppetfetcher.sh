@@ -5,6 +5,8 @@
 # Make sure to add the servers public key as a github deploy key
 
 export HOME=/root/
+PATH=/opt/puppetlabs/bin:$PATH
+
 
 # Initialize repo if not already there
 if [ ! -d /opt/holger-puppet ]; then 
