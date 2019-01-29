@@ -9,7 +9,11 @@ class wordpress {
 
   class { 'apache':
     default_vhost => false,
+    mpm_module    => 'prefork',
   }
+
+  include apache::mod::rewrite
+  include apache::mod::php
 
   apache::vhost { 'holgerspexet-public.lysator.liu.se':
     port    => '8080',
