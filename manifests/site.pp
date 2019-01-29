@@ -7,4 +7,5 @@ node 'holgerspexet' {
 node 'holgerspexet-public' {
   require ::baseinstall
   require ::puppetfetch
+  include ::wordpress
 }
