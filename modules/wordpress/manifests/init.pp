@@ -1,4 +1,4 @@
-class ::wordpress {
+class wordpress {
   package { [ 'php', 'libapache2-mod-php', 'php-mysql', 'mysql-server' ]:
     ensure => latest,
   }
