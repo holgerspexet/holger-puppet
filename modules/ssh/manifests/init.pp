@@ -1,4 +1,10 @@
 class ssh {
+  user { 'root':
+    ensure => present,
+    purge_ssh_keys => true,
+    home => '/root',
+  }
+
   # Henrik Henriksson
   ssh_authorized_key { 'cartno:000609070933':
     ensure => present,
