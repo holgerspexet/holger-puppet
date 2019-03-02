@@ -25,3 +25,9 @@
 [submodule "modules/apache"]
 	path = modules/apache
 	url = https://github.com/puppetlabs/puppetlabs-apache.git
+[submodule "modules/nodejs"]
+	path = modules/nodejs
+	url = https://github.com/voxpupuli/puppet-nodejs.git
+[submodule "modules/apt"]
+	path = modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt.git

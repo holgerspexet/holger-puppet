@@ -3,6 +3,7 @@ node 'holgerspexet' {
   require ::puppetfetch
   include ::ssh
   include ::insidan
+  include ::arkivet
 }
 
 node 'holgerspexet-public' {
