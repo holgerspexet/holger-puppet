@@ -66,6 +66,23 @@ class arkivet {
     },
    }
 
+  ::nginx::resource::location { 'arkivet-directory-listing':
+    ensure => present,
+    location => '/arkivet/filer/',
+    server => 'insidan.holgerspexet.se',
+    ssl => true,
+    ssl_only => true,
+    index_files => ['nogenerics.go'], # Needs to be filled with something -.-
+    autoindex => 'on',
+
+    location_cfg_append => {
+      auth_request => '/api/v3/users/me',
+      error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
+      alias => '/storage/gamla-arkivet/',
+    },
+   }
+
+
 
   include nginx
 }
