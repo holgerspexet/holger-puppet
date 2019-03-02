@@ -7,6 +7,7 @@ class baseinstall {
              'openssh-server',
              'qemu-guest-agent',
              'tmux',
+             'tree',
             ]:
               ensure => 'latest',
   }
