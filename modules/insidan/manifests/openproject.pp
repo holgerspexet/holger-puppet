@@ -49,11 +49,4 @@ class insidan::openproject {
     source => 'puppet:///modules/insidan/holgerlogga.png'
   }
 
-  ::nginx::resource::location { 'test':
-    ensure => present,
-    location => '/thisisatest/',
-    server => 'insidan.holgerspexet.se',
-    www_root => '/srv',
-   }
-
 }
