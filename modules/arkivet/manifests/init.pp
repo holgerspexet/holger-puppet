@@ -82,6 +82,13 @@ class arkivet {
     },
    }
 
+   file { '/storage':
+     ensure => directory,
+   }
+   ~> file_line { 'fstab /storage':
+     path => '/etc/fstab',
+     line => '130.236.254.98:/storage/inhysningar/holger /storage nfs defaults,noatime 0 0',
+   }
 
 
   include nginx
