@@ -41,6 +41,7 @@ class arkivet {
     creates => '/srv/holger-archive/app/server/dist',
     require => File['/home/arkivet'],
     refreshonly => true,
+    notify => [ Service['arkivet'], ],
   }
 
   service { 'arkivet':
