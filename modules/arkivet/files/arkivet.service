@@ -13,6 +13,7 @@ Environment=HOLGER_ARCHIVE_PORT=3001
 Environment=HOLGER_ARCHIVE_ROOT=/srv/holger-archive/seed-archive-root
 Environment=HOLGER_ARCHIVE_CLIENT_ROOT=/srv/holger-archive/app/client/dist
 Environment=HOLGER_ARCHIVE_TMP_DIR=/tmp/arkivet
+Environment=HOLGER_ARCHIVE_HOSTING=/arkivet/
 Environment=NODE_ENV=production
 
 
