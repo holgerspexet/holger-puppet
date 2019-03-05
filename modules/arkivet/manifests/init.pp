@@ -35,7 +35,14 @@ class arkivet {
     owner => 'arkivet',
   }
   ~> exec { 'compile holger-archive app':
-    command => 'bash -c "cd /srv/holger-archive; npm install && HOLGER_ARCHIVE_HOSTING=/arkivet/ npm run build"',
+    command => 'bash -c "cd /srv/holger-archive; npm install && npm run build"',
+    environment => [
+      "HOLGER_ARCHIVE_HOSTING=/arkivet/",
+      "HOLGER_ARCHIVE_PORT=3001",
+      "HOLGER_ARCHIVE_ROOT=/srv/holger-archive/seed-archive-root",
+      "HOLGER_ARCHIVE_CLIENT_ROOT=/srv/holger-archive/app/client/dist",
+      "HOLGER_ARCHIVE_TMP_DIR=/tmp/arkivet",
+    ],
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     user => 'arkivet',
     creates => '/srv/holger-archive/app/server/dist',
