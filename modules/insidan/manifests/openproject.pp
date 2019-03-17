@@ -9,7 +9,7 @@ class insidan::openproject {
     path => ['/usr/bin', '/usr/sbin', '/bin'],
   }~>
   package { 'openproject' :
-    ensure => latest,
+    ensure => installed,
   }
 
   # Here, someone MUST run `openproject configure`. At least until we
