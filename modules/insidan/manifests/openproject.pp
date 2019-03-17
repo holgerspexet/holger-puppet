@@ -12,6 +12,11 @@ class insidan::openproject {
     ensure => installed,
   }
 
+
+  package { [ 'postgresql', 'postgresql-contrib', 'libpq-dev', 'pgloader' ]:
+    ensure => installed,
+  }
+
   # Here, someone MUST run `openproject configure`. At least until we
   # configure it via puppet...
 
