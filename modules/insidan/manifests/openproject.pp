@@ -10,6 +10,8 @@ class insidan::openproject {
   }~>
   package { 'openproject' :
     ensure => installed,
+  # Here, someone MUST run `openproject configure`. At least until we
+  # configure it via puppet...
   }
 
 
@@ -17,8 +19,27 @@ class insidan::openproject {
     ensure => installed,
   }
 
-  # Here, someone MUST run `openproject configure`. At least until we
-  # configure it via puppet...
+  file { '/pg_dump':
+    ensure => directory,
+    owner => 'postgres',
+    require => Package['postgresql'],
+  }
+
+  file { '/opt/pg_dump.sh':
+    ensure => file,
+    mode   => '755',
+    source => 'puppet:///modules/insidan/pg_dump.sh',
+  }
+
+  cron { 'pg_dump openproject':
+    ensure => present,
+    command => '/opt/pg_dump.sh',
+    user => root,
+    minute => 45,
+    require => [ File['/opt/pg_dump.sh'], File['/pg_dump'] ]
+  }
+  
+
 
 
 
