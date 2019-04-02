@@ -1,0 +1,13 @@
+[Unit]
+Description=Holgerspexets grunkor. Kör en flask-server via uwsgi.
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/grunkor.pid
+WorkingDirectory=/opt/grunkor/
+ExecStart=/usr/bin/uwsgi --ini grunkor.ini
+User=grunkor
+
+[Install]
+WantedBy=multi-user.target
