@@ -18,4 +18,6 @@ class baseinstall {
     hour    => '3',
     minute  => '30',
   }
+
+  include prometheus::node_exporter
 }

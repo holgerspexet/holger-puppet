@@ -31,3 +31,12 @@
 [submodule "modules/apt"]
 	path = modules/apt
 	url = https://github.com/puppetlabs/puppetlabs-apt.git
+[submodule "modules/prometheus"]
+	path = modules/prometheus
+	url = https://github.com/voxpupuli/puppet-prometheus.git
+[submodule "modules/archive"]
+	path = modules/archive
+	url = https://github.com/voxpupuli/puppet-archive.git
+[submodule "modules/systemd"]
+	path = modules/systemd
+	url = https://github.com/camptocamp/puppet-systemd.git
