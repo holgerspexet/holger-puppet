@@ -7,9 +7,12 @@ class wordpress {
     ensure => directory,
   }
 
+  include wordpress::certificates;
+
   class { 'apache':
     default_vhost => false,
     mpm_module    => 'prefork',
+    require => [ Class['::wordpress::certificates'], ],
   }
 
   include apache::mod::rewrite
@@ -66,18 +69,5 @@ class wordpress {
     redirect_status => 'permanent',
     redirect_dest => 'https://dev.holgerspexet.se',
   }
-
-
-  class { '::letsencrypt':
-    email => 'hx@hx.ax', # Putting in my personal email for now
-  }
-
-  letsencrypt::certonly { 'holgerspexet.se':
-    domains => [ 'holgerspexet.se',
-                 'holgerspexet-public.lysator.liu.se',
-                 'www.holgerspexet.se',
-               ],
-    suppress_cron_output => true,
-    cron_success_command => '/bin/systemctl restart nginx',
-  }
 }
+

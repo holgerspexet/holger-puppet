@@ -6,10 +6,12 @@ class insidan::certificates {
   letsencrypt::certonly { 'insidan.holgerspexet.se':
     domains => [ 'insidan.holgerspexet.se',
                  'holgerspexet.lysator.liu.se',
-                 'holgerspexet.se',
-                 'www.holgerspexet.se',
                ],
+    manage_cron => true,
     suppress_cron_output => true,
-    cron_success_command => '/bin/systemctl restart nginx',
+    cron_hour  => '4',
+    cron_minute => '13',
+    pre_hook_commands => ['/bin/systemctl stop nginx',],
+    post_hook_commands => ['/bin/systemctl restart nginx',],
   }
 }

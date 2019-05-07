@@ -41,10 +41,9 @@ class insidan::openproject {
   
 
 
-
-
   # Setup Nginx
   nginx::resource::server { 'insidan.holgerspexet.se':
+    require => [ Class['::insidan::certificates'], ],
     server_name => ['insidan.holgerspexet.se'],
     proxy => 'http://localhost:6000',
 
