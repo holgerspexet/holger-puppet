@@ -40,3 +40,6 @@
 [submodule "modules/systemd"]
 	path = modules/systemd
 	url = https://github.com/camptocamp/puppet-systemd.git
+[submodule "modules/translate"]
+	path = modules/translate
+	url = https://github.com/puppetlabs/puppetlabs-translate.git
