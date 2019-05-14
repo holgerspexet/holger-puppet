@@ -12,6 +12,16 @@ class baseinstall {
               ensure => 'latest',
   }
 
+  # Remove old puppet reports that waste disk space
+  tidy { '/var/cache/puppet/reports':
+         age     => '30d',
+         matches => "*.yaml",
+         recurse => true,
+         rmdirs  => false,
+         type    => mtime,
+  }
+
+
   cron { 'reboot weekly':
     command => '/sbin/reboot',
     weekday => '1',
