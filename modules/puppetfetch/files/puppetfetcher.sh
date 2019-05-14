@@ -22,4 +22,15 @@ git submodule update --recursive --remote > /dev/null  || exit 1
 uptime >> /root/last_puppet_run.log
 puppet apply --modulepath=/opt/holger-puppet/modules/ /opt/holger-puppet/manifests/site.pp >> /root/last_puppet_run.log
 
+PUPPET_RETURN_VALUE=$?
+PROMETHEUS_DUMP_PATH=/var/lib/prometheus-dropzone
+
+
+echo puppet_last_apply_time $(date +%s) > $PROMETHEUS_DUMP_PATH/puppet_last_apply_time.prom.dubbelbuffer
+mv $PROMETHEUS_DUMP_PATH/puppet_last_apply_time.prom.dubbelbuffer $PROMETHEUS_DUMP_PATH/puppet_last_apply_time.prom
+
+echo puppet_return $PUPPET_RETURN_VALUE > $PROMETHEUS_DUMP_PATH/puppet_return.prom.dubbelbuffer
+mv $PROMETHEUS_DUMP_PATH/puppet_return.prom.dubbelbuffer $PROMETHEUS_DUMP_PATH/puppet_return.prom
+
+
 

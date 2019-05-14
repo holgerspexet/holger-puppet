@@ -29,5 +29,12 @@ class baseinstall {
     minute  => '30',
   }
 
-  include prometheus::node_exporter
+  file { '/var/lib/prometheus-dropzone':
+    ensure => directory,
+  }
+
+  class { '::prometheus::node_exporter': 
+    extra_options => '--collector.textfile.directory=/var/lib/prometheus-dropzone',
+    require => File['/var/lib/prometheus-dropzone'],
+  }
 }
