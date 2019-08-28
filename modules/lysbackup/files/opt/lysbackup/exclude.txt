@@ -1,0 +1,7 @@
+/dev
+*/.npm
+*/.npm/*
+*.tmp
+/proc
+/sys
+/var/lib/lxcfs/cgroup

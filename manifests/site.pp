@@ -4,6 +4,7 @@ node 'holgerspexet' {
   include ::ssh
   include ::insidan
   include ::arkivet
+  include ::lysbackup
 }
 
 node 'holgerspexet-public' {
@@ -11,4 +12,5 @@ node 'holgerspexet-public' {
   require ::puppetfetch
   include ::ssh
   include ::wordpress
+  include ::lysbackup
 }
