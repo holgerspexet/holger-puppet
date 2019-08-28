@@ -7,6 +7,25 @@ class wordpress {
     ensure => directory,
   }
 
+  file { '/mysql_dump':
+    ensure => directory,
+  }
+
+  file { '/opt/mysql_dump.sh':
+    ensure => file,
+    mode   => '755',
+    source => 'puppet:///modules/wordpress/opt/mysql_dump.sh',
+  }
+
+  cron { 'mysqldump':
+    ensure => present,
+    command => '/opt/mysql_dump.sh',
+    user => root,
+    minute => 35,
+    require => [ File['/mysql_dump'], File['/opt/mysql_dump.sh']],
+  }
+
+
   include wordpress::certificates;
 
   class { 'apache':
