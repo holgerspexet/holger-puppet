@@ -32,6 +32,6 @@ if __name__ == '__main__':
         print('Finished backup in {0:0>10.1f} seconds.'.format(diff))
 
         with open('/var/lib/prometheus-dropzone/last_backup_done_at', 'w') as f:
-            f.write('last_backup_done_at {}\n'.format(time.time()))
+            f.write('last_backup_done_at.prom {}\n'.format(time.time()))
         with open('/var/lib/prometheus-dropzone/backup_duration', 'w') as f:
-            f.write('last_backup_duration {}\n'.format(diff))
+            f.write('last_backup_duration.prom {}\n'.format(diff))
