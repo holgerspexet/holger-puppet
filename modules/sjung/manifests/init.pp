@@ -9,7 +9,6 @@ class sjung {
     ensure => present,
     location => '/sjung/',
     root => '/srv/sjung/'
-    index => 'index.html'
     server => 'insidan.holgerspexet.se',
     ssl => true,
     ssl_only => true,
