@@ -8,10 +8,12 @@ class sjung {
   ::nginx::resource::location { 'sjung':
     ensure => present,
     location => '/sjung/',
-    www_root => '/srv/sjung/',
     server => 'insidan.holgerspexet.se',
     ssl => true,
     ssl_only => true,
+    location_cfg_append => {
+      alias => '/srv/sjung/',
+    },
    }
   include nginx
 }
