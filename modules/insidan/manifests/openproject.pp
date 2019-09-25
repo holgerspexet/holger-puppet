@@ -4,7 +4,7 @@ class insidan::openproject {
   # This is horrible. Please fix.
   exec { 'install openproject repos':
     command => 'bash -e wget -qO- https://dl.packager.io/srv/opf/openproject-ce/key | apt-key add -; sudo wget -O /etc/apt/sources.list.d/openproject-ce.list
-    https://dl.packager.io/srv/opf/openproject-ce/stable/8/installer/ubuntu/18.04.repo',
+    https://dl.packager.io/srv/opf/openproject-ce/stable/10/installer/ubuntu/18.04.repo',
     creates => '/etc/apt/sources.list.d/openproject-ce.list',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
   }~>
