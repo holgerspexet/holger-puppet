@@ -11,7 +11,7 @@ class grunkor {
     ensure   => latest,
     owner    => 'grunkor',
     provider => git,
-    source   => 'git@github.com:holgerspexet/holger-archive.git',
+    source   => 'git@github.com:holgerspexet/holger-grunkor.git',
   }->
   file { '/lib/systemd/system/grunkor.service':
     source => 'puppet:///modules/grunkor/grunkor.service',
