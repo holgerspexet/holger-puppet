@@ -72,21 +72,23 @@ class wordpress {
   }
 
 
-  apache::vhost { 'dev.holgerspexet.se ssl':
-    servername => 'dev.holgerspexet.se',
+  apache::vhost { 'www.holgerspexet.se ssl':
+    servername => 'www.holgerspexet.se',
     port    => '443',
-    docroot => '/srv/holgerspexet-wordpress',
+    docroot => '/var/www/redirect',
+    redirect_status => 'permanent',
+    redirect_dest => 'https://holgerspexet.se',
     ssl   => true,
     ssl_cert  => '/etc/letsencrypt/live/holgerspexet.se/fullchain.pem',
     ssl_key  => '/etc/letsencrypt/live/holgerspexet.se/privkey.pem',
   }
 
-  apache::vhost { 'dev.holgerspexet.se non-ssl':
-    servername => 'dev.holgerspexet.se',
+  apache::vhost { 'www.holgerspexet.se non-ssl':
+    servername => 'www.holgerspexet.se',
     port => '80',
     docroot => '/var/www/redirect',
     redirect_status => 'permanent',
-    redirect_dest => 'https://dev.holgerspexet.se',
+    redirect_dest => 'https://holgerspexet.se',
   }
 }
 
