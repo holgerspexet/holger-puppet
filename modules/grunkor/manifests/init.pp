@@ -12,6 +12,7 @@ class grunkor {
     owner    => 'grunkor',
     provider => git,
     source   => 'git@github.com:holgerspexet/holger-grunkor.git',
+    notify   => Service['grunkor'],
   }->
   file { '/lib/systemd/system/grunkor.service':
     source => 'puppet:///modules/grunkor/grunkor.service',
