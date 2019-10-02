@@ -16,6 +16,14 @@ class arkivet {
     command => '/bin/systemctl daemon-reload',
   }
 
+  file { '/srv/arkivet-testdata':
+    ensure  => directory,
+    owner   => 'arkivet',
+    group   => 'arkivet',
+    recurse => true,
+    source  => '/srv/holger-archive/seed-archive-root',
+  }
+
   vcsrepo { '/srv/holger-archive':
     ensure     => latest,
     provider   => git,
@@ -25,6 +33,7 @@ class arkivet {
     # щ（ﾟДﾟщ）
     source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
     notify => Exec['compile holger-archive app'],
+    before => File['/srv/arkivet-testdata'],
   }
 
   class { 'nodejs':
@@ -38,7 +47,7 @@ class arkivet {
     environment => [
       "HOLGER_ARCHIVE_HOSTING=/arkivet/",
       "HOLGER_ARCHIVE_PORT=3001",
-      "HOLGER_ARCHIVE_ROOT=/srv/holger-archive/seed-archive-root",
+      "HOLGER_ARCHIVE_ROOT=/srv/arkivet-testdata",
       "HOLGER_ARCHIVE_CLIENT_ROOT=/srv/holger-archive/app/client/dist",
       "HOLGER_ARCHIVE_TMP_DIR=/tmp/arkivet",
     ],
@@ -56,6 +65,7 @@ class arkivet {
     require => [
       Exec['compile holger-archive app'],
       Exec['load arkivet unit file'],
+      File['/srv/arkivet-testdata'],
      ],
   }
 
