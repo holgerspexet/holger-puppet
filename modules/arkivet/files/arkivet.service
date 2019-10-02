@@ -10,7 +10,7 @@ ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/a
 TimeoutStopSec=5
 User=arkivet
 Environment=HOLGER_ARCHIVE_PORT=3001
-Environment=HOLGER_ARCHIVE_ROOT=/srv/holger-archive/seed-archive-root
+Environment=HOLGER_ARCHIVE_ROOT=/srv/arkivet-testdata
 Environment=HOLGER_ARCHIVE_CLIENT_ROOT=/srv/holger-archive/app/client/dist
 Environment=HOLGER_ARCHIVE_TMP_DIR=/tmp/arkivet
 Environment=HOLGER_ARCHIVE_HOSTING=/arkivet/
