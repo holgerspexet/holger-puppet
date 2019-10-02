@@ -22,20 +22,15 @@ class arkivet {
     nodejs_package_ensure     => 'latest',
 #    npm_package_ensure        => 'latest',
   }
-  -> vcsrepo { '/opt/holger-archive-git':
+  -> vcsrepo { '/srv/holger-archive':
     ensure     => latest,
     provider   => git,
     # Varför? För att github kräver att man har olika deploy-keys för varje repo
     # щ（ﾟДﾟщ）
     source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
   }
-  ~> file { '/srv/holger-archive':
-    source => '/opt/holger-archive-git',
-    recurse => true,
-    owner => 'arkivet',
-  }
   ~> exec { 'compile holger-archive app':
-    command => 'bash -c "cd /srv/holger-archive; npm install && npm run build"',
+    command => 'bash -c "cd /srv/holger-archive; npm ci && npm run build"',
     environment => [
       "HOLGER_ARCHIVE_HOSTING=/arkivet/",
       "HOLGER_ARCHIVE_PORT=3001",
