@@ -16,20 +16,22 @@ class arkivet {
     command => '/bin/systemctl daemon-reload',
   }
 
-  class { 'nodejs':
-    manage_package_repo       => true,
-    repo_url_suffix           => '11.x',
-    nodejs_package_ensure     => 'latest',
-#    npm_package_ensure        => 'latest',
-  }
-  -> vcsrepo { '/srv/holger-archive':
+  vcsrepo { '/srv/holger-archive':
     ensure     => latest,
     provider   => git,
     # Varför? För att github kräver att man har olika deploy-keys för varje repo
     # щ（ﾟДﾟщ）
     source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
+    notify => Exec['compile holger-archive app'],
   }
-  ~> exec { 'compile holger-archive app':
+
+  class { 'nodejs':
+    manage_package_repo       => true,
+    repo_url_suffix           => '11.x',
+    nodejs_package_ensure     => 'latest',
+#    npm_package_ensure        => 'latest',
+  }->
+  exec { 'compile holger-archive app':
     command => 'bash -c "cd /srv/holger-archive; npm ci && npm run build"',
     environment => [
       "HOLGER_ARCHIVE_HOSTING=/arkivet/",
