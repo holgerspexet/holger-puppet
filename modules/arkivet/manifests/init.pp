@@ -19,6 +19,8 @@ class arkivet {
   vcsrepo { '/srv/holger-archive':
     ensure     => latest,
     provider   => git,
+    owner      => 'arkivet',
+    group      => 'arkivet',
     # Varför? För att github kräver att man har olika deploy-keys för varje repo
     # щ（ﾟДﾟщ）
     source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
