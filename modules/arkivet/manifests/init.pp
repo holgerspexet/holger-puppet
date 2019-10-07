@@ -111,6 +111,7 @@ class arkivet {
     location_cfg_append => {
       auth_request => '/api/v3/users/me',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
+      keepalive  => '64',
       alias => '/storage/gamla-arkivet/',
     },
    }
