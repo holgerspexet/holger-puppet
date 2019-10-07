@@ -78,6 +78,7 @@ class arkivet {
     proxy => 'http://localhost:3001',
 
     location_cfg_append => {
+      keepalive  => '64',
       auth_request => '/api/v3/users/me',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet',
     },
@@ -111,7 +112,6 @@ class arkivet {
     location_cfg_append => {
       auth_request => '/api/v3/users/me',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
-      keepalive  => '64',
       alias => '/storage/gamla-arkivet/',
     },
    }
