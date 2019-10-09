@@ -53,7 +53,6 @@ class arkivet {
     ],
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     user => 'arkivet',
-    creates => '/srv/holger-archive/app/server/dist',
     require => File['/home/arkivet'],
     refreshonly => true,
     notify => [ Service['arkivet'], ],
