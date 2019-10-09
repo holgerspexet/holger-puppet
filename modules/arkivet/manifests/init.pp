@@ -55,6 +55,7 @@ class arkivet {
     user => 'arkivet',
     require => File['/home/arkivet'],
     refreshonly => true,
+    logoutput => true,
     notify => [ Service['arkivet'], ],
   }
 
