@@ -32,7 +32,6 @@ class arkivet {
     # Varför? För att github kräver att man har olika deploy-keys för varje repo
     # щ（ﾟДﾟщ）
     source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
-    notify => Exec['compile holger-archive app'],
     before => File['/srv/arkivet-testdata'],
   }
 
@@ -53,9 +52,9 @@ class arkivet {
     ],
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     user => 'arkivet',
-    creates => '/srv/holger-archive/app/server/dist',
     require => File['/home/arkivet'],
     refreshonly => true,
+    subscribe => Vcsrepo['/srv/holger-archive'],
     notify => [ Service['arkivet'], ],
   }
 
