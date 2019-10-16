@@ -81,14 +81,14 @@ class insidan::openproject {
     server   => 'insidan.holgerspexet.se',
     ssl      => true,
     ssl_only => true,
-    proxy    => 'https://insidan.holgerspexet.se/api/v3/users/me'
+    proxy    => 'https://insidan.holgerspexet.se/api/v3/users/me',
     location_cfg_append => {
       proxy_pass_request_body => 'off',
-    }
+    },
     proxy_set_header => [
       'Content-Length ""',
       'X-Original-URI \$request_uri',
-    ]
+    ],
   }
 
 }
