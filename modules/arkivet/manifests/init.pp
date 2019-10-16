@@ -78,7 +78,7 @@ class arkivet {
     proxy => 'http://localhost:3001',
 
     location_cfg_append => {
-      auth_request => '/api/v3/users/me',
+      auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet',
     },
    }
@@ -93,7 +93,7 @@ class arkivet {
     autoindex => 'on',
 
     location_cfg_append => {
-      auth_request => '/api/v3/users/me',
+      auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
       alias => '/storage/media/',
     },
@@ -109,7 +109,7 @@ class arkivet {
     autoindex => 'on',
 
     location_cfg_append => {
-      auth_request => '/api/v3/users/me',
+      auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
       alias => '/storage/gamla-arkivet/',
     },
