@@ -38,12 +38,12 @@ class citat {
   #   ensure => installed,
   # }->
   exec { 'compile holger-quotes app':
-    command => 'bash -c "go build"',
+    command => 'bash -c "cd /srv/holger-quotes; go build"',
     cwd => '/srv/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin', '/snap/bin/go'],
     user => 'citat',
     require => File['/home/citat'],
-    refreshonly => true,
+    #refreshonly => true,
     subscribe => Vcsrepo['/srv/holger-quotes'],
     notify => [ Service['citat'], ],
   }
