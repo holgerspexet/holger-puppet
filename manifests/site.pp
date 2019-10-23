@@ -4,7 +4,7 @@ node 'holgerspexet' {
   include ::ssh
   include ::insidan
   include ::arkivet
-  include ::citat
+  # include ::citat
   include ::sjung
   include ::lysbackup
 }
