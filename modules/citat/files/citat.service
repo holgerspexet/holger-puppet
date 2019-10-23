@@ -5,13 +5,15 @@ After=network.target
 [Service]
 Type=simple
 PIDFile=/run/citat.pid
-ExecStart=/srv/holger-quotes/main
+ExecStart=/srv/holger-quotes/holger-quotes
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/citat.pid
 TimeoutStopSec=5
 User=citat
 Environment=HOLGER_QUOTES_PORT=3010
 Environment=HOLGER_QUOTES_HOSTING=/citat/
 Environment=HOLGER_QUOTES_SQLIGHT_PATH=/srv/holger-quotes/test.sql
+Environment=HOLGER_QUOTES_TEMPLATE_DIR=/srv/holger-quotes/templates
+Environment=HOLGER_QUOTES_STATIC_DIR=/srv/holger-quotes/static
 
 [Install]
 WantedBy=multi-user.target
