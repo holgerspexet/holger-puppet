@@ -35,7 +35,7 @@ class citat {
   }
 
   exec { 'compile holger-quotes app':
-    command => 'bash -c "cd /srv/holger-quotes; go -o holger-quotes build"',
+    command => 'bash -c "cd /srv/holger-quotes; go build -o holger-quotes"',
     cwd => '/srv/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
     user => 'citat',
