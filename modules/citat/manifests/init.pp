@@ -34,16 +34,13 @@ class citat {
     before => File['/srv/holger-quotes/test.sql'],
   }
 
-  # package { [ 'golang-1.13-go' ]:
-  #   ensure => installed,
-  # }->
   exec { 'compile holger-quotes app':
-    command => 'bash -c "cd /srv/holger-quotes; go build"',
+    command => 'bash -c "cd /srv/holger-quotes; go -o holger-quotes build"',
     cwd => '/srv/holger-quotes',
-    path => ['/usr/bin', '/usr/sbin', '/bin', '/snap/bin/go'],
+    path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
     user => 'citat',
     require => File['/home/citat'],
-    #refreshonly => true,
+    refreshonly => true,
     subscribe => Vcsrepo['/srv/holger-quotes'],
     notify => [ Service['citat'], ],
   }
