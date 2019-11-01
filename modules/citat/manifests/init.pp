@@ -39,7 +39,7 @@ class citat {
     cwd => '/srv/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
     user => 'citat',
-    environment => [ 'HOME=/home/citat' ]
+    environment => [ 'HOME=/home/citat' ],
     require => File['/home/citat'],
     refreshonly => true,
     subscribe => Vcsrepo['/srv/holger-quotes'],
