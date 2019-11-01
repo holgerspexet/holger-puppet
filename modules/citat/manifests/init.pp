@@ -39,6 +39,7 @@ class citat {
     cwd => '/srv/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
     user => 'citat',
+    environment => [ 'HOME=/home/citat' ]
     require => File['/home/citat'],
     refreshonly => true,
     subscribe => Vcsrepo['/srv/holger-quotes'],
@@ -49,7 +50,7 @@ class citat {
     ensure => running,
     enable => true,
     require => [
-      Exec['compile holger-quotes app'],
+      User['compile holger-quotes app'],
       Exec['load citat unit file'],
       File['/srv/holger-quotes/test.sql'],
      ],
