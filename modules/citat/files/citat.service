@@ -14,6 +14,7 @@ Environment=HOLGER_QUOTES_HOSTING=/citat/
 Environment=HOLGER_QUOTES_SQLIGHT_PATH=/srv/holger-quotes/test.sql
 Environment=HOLGER_QUOTES_TEMPLATE_DIR=/srv/holger-quotes/templates
 Environment=HOLGER_QUOTES_STATIC_DIR=/srv/holger-quotes/static
+WorkingDirectory=/home/citat
 
 [Install]
 WantedBy=multi-user.target
