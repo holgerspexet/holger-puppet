@@ -50,7 +50,7 @@ class citat {
     ensure => running,
     enable => true,
     require => [
-      User['compile holger-quotes app'],
+      Exec['compile holger-quotes app'],
       Exec['load citat unit file'],
       File['/srv/holger-quotes/test.sql'],
      ],
