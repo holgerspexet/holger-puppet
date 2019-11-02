@@ -1,13 +1,4 @@
 class citat {
-  user { 'citat':
-    ensure => present,
-    home => '/home/citat',
-  }
-  file { '/home/citat':
-    ensure => directory,
-    owner => 'citat',
-  }
-
   file { '/lib/systemd/system/citat.service':
     source => 'puppet:///modules/citat/citat.service',
   }~>
@@ -16,31 +7,24 @@ class citat {
     command => '/bin/systemctl daemon-reload',
   }
 
-  file { '/srv/holger-quotes/test.sql':
-    owner   => 'citat',
-    group   => 'citat',
-  }
-
   vcsrepo { '/srv/holger-quotes':
     ensure     => latest,
     provider   => git,
-    owner      => 'citat',
-    group      => 'citat',
+    owner      => 'holger',
+    group      => 'holger',
     # Varför? För att github kräver att man har olika deploy-keys för varje repo
     # щ（ﾟДﾟщ）
     # 
-    # Byt deploy key
     source     => 'git@deploy-holger-quotes.github.com:holgerspexet/holger-quotes.git',
-    before => File['/srv/holger-quotes/test.sql'],
   }
 
   exec { 'compile holger-quotes app':
     command => 'bash -c "cd /srv/holger-quotes; go build -o holger-quotes"',
     cwd => '/srv/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
-    user => 'citat',
-    environment => [ 'HOME=/home/citat' ],
-    require => File['/home/citat'],
+    user => 'holger',
+    environment => [ 'HOME=/home/holger' ],
+    require => File['/home/holger'],
     refreshonly => true,
     subscribe => Vcsrepo['/srv/holger-quotes'],
     notify => [ Service['citat'], ],
@@ -52,7 +36,6 @@ class citat {
     require => [
       Exec['compile holger-quotes app'],
       Exec['load citat unit file'],
-      File['/srv/holger-quotes/test.sql'],
      ],
   }
 
