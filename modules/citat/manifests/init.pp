@@ -24,7 +24,6 @@ class citat {
     path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
     user => 'holger',
     environment => [ 'HOME=/home/holger' ],
-    require => File['/home/holger'],
     refreshonly => true,
     subscribe => Vcsrepo['/srv/holger-quotes'],
     notify => [ Service['citat'], ],
