@@ -79,6 +79,7 @@ class arkivet {
     location_cfg_append => {
       auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet',
+      client_max_body_size => "100M",
     },
    }
 
