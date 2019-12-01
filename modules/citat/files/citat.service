@@ -12,8 +12,6 @@ User=holger
 Environment=HOLGER_QUOTES_PORT=3010
 Environment=HOLGER_QUOTES_HOSTING=/citat/
 Environment=HOLGER_QUOTES_SQLIGHT_PATH=/storage/citat/quotes.sql
-Environment=HOLGER_QUOTES_TEMPLATE_DIR=/srv/holger-quotes/templates
-Environment=HOLGER_QUOTES_STATIC_DIR=/srv/holger-quotes/static
 WorkingDirectory=/home/holger
 
 [Install]

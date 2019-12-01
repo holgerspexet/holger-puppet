@@ -7,33 +7,25 @@ class citat {
     command => '/bin/systemctl daemon-reload',
   }
 
-  vcsrepo { '/srv/holger-quotes':
-    ensure     => latest,
-    provider   => git,
-    owner      => 'holger',
-    group      => 'holger',
-    # Varför? För att github kräver att man har olika deploy-keys för varje repo
-    # щ（ﾟДﾟщ）
-    # 
-    source     => 'git@deploy-holger-quotes.github.com:holgerspexet/holger-quotes.git',
+  file { '/srv/holger-quotes':
+    ensure => directory,
   }
 
-  exec { 'compile holger-quotes app':
-    command => 'bash -c "cd /srv/holger-quotes; go build -o holger-quotes"',
-    cwd => '/srv/holger-quotes',
-    path => ['/usr/bin', '/usr/sbin', '/bin', '/usr/local/go/bin'],
-    user => 'holger',
-    environment => [ 'HOME=/home/holger' ],
+  # TODO: Check if a new version has been released before downloading
+  exec { 'download binary for holger-quotes':
+    command => 'wget https://github.com/holgerspexet/holger-quotes/releases/latest/download/holger-quotes -O /srv/holger-quotes/holger-quotes',
+    require => File['/srv/holger-quotes']
+  }~>
+  exec { 'enable execution of holger-quotes':
+    command => 'chmod +x /srv/holger-quotes/holger-quotes',
     refreshonly => true,
-    subscribe => Vcsrepo['/srv/holger-quotes'],
-    notify => [ Service['citat'], ],
   }
 
   service { 'citat':
     ensure => running,
     enable => true,
     require => [
-      Exec['compile holger-quotes app'],
+      Exec['enable execution of holger-quotes'],
       Exec['load citat unit file'],
      ],
   }
