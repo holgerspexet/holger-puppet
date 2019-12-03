@@ -13,6 +13,7 @@ class citat {
   
   file { '/srv/holger-quotes/is-new-version-available.sh':
     source => 'puppet:///modules/citat/is-new-version-available.sh',
+    mode => '+x'
     require => File['/srv/holger-quotes'],
   }
 
