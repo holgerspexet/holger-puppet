@@ -18,25 +18,35 @@ class citat {
   }
 
   exec { 'download binary for holger-quotes':
-    command => 'wget https://github.com/holgerspexet/holger-quotes/releases/latest/download/holger-quotes -O /srv/holger-quotes/holger-quotes',
+    command => 'wget https://github.com/holgerspexet/holger-quotes/releases/latest/download/holger-quotes -O /srv/holger-quotes/holger-quotes-new',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     require => [
       File['/srv/holger-quotes'],
       File['/srv/holger-quotes/is-new-version-available.sh']
     ],
     onlyif => '/srv/holger-quotes/is-new-version-available.sh /srv/holger-quotes/holger-quotes',
-  }~>
+  } ~>
   exec { 'enable execution of holger-quotes':
     command => 'chmod +x /srv/holger-quotes/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     refreshonly => true,
+  } ~>
+  service { 'stop citat':
+    name => 'citat',
+    ensure => stopped,
+  } ~>
+  exec { 'update binary':
+    command => 'mv /srv/holger-quotes/holger-quotes-new /srv/holger-quotes/holger-quotes',
+    path => ['/usr/bin', '/usr/sbin', '/bin'],
+    refreshonly => true,
   }
 
-  service { 'citat':
+  service { 'start citat':
+    name => 'citat',
     ensure => running,
     enable => true,
     require => [
-      Exec['enable execution of holger-quotes'],
+      Exec['update binary'],
       Exec['load citat unit file'],
      ],
   }
