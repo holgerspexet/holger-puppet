@@ -10,12 +10,20 @@ class citat {
   file { '/srv/holger-quotes':
     ensure => directory,
   }
+  
+  file { '/srv/holger-quotes/is-new-version-available.sh':
+    source => 'puppet:///modules/citat/is-new-version-available.sh',
+    require => File['/srv/holger-quotes'],
+  }
 
   exec { 'download binary for holger-quotes':
     command => 'wget https://github.com/holgerspexet/holger-quotes/releases/latest/download/holger-quotes -O /srv/holger-quotes/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => File['/srv/holger-quotes'],
-    onlyif => 'puppet:///modules/citat/is-new-version-available.sh /srv/holger-quotes/holger-quotes',
+    require => [
+      File['/srv/holger-quotes'],
+      File['/srv/holger-quotes/is-new-version-available.sh']
+    ],
+    onlyif => '/srv/holger-quotes/is-new-version-available.sh /srv/holger-quotes/holger-quotes',
   }~>
   exec { 'enable execution of holger-quotes':
     command => 'chmod +x /srv/holger-quotes/holger-quotes',
