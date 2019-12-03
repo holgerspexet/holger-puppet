@@ -26,23 +26,19 @@ class citat {
     ],
     onlyif => '/srv/holger-quotes/is-new-version-available.sh /srv/holger-quotes/holger-quotes',
   } ~>
-  exec { 'enable execution of holger-quotes':
-    command => 'chmod +x /srv/holger-quotes/holger-quotes',
+  exec { 'enable execution of holger-quotes-new':
+    command => 'chmod +x /srv/holger-quotes/holger-quotes-new',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     refreshonly => true,
-  } ~>
-  service { 'stop citat':
-    name => 'citat',
-    ensure => stopped,
   } ~>
   exec { 'update binary':
     command => 'mv /srv/holger-quotes/holger-quotes-new /srv/holger-quotes/holger-quotes',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
     refreshonly => true,
+    notify  => Service['citat'],
   }
 
-  service { 'start citat':
-    name => 'citat',
+  service { 'citat':
     ensure => running,
     enable => true,
     require => [
