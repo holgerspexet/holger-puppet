@@ -111,7 +111,7 @@ class arkivet {
    }
    ~> file_line { 'fstab /storage':
      path => '/etc/fstab',
-     line => '130.236.254.98:/storage/inhysningar/holger /storage nfs defaults,noatime 0 0',
+     line => 'babelfish.lysator.liu.se:/storage/inhysningar/holger /storage nfs4 defaults,noatime 0 0',
    }
 
 
