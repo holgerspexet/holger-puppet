@@ -4,7 +4,7 @@ class insidan::openproject {
   # This is horrible. Please fix.
   exec { 'install openproject repos':
     command => 'bash -e wget -qO- https://dl.packager.io/srv/opf/openproject-ce/key | apt-key add -; sudo wget -O /etc/apt/sources.list.d/openproject-ce.list
-    https://dl.packager.io/srv/opf/openproject-ce/stable/8/installer/ubuntu/18.04.repo',
+    https://dl.packager.io/srv/opf/openproject-ce/stable/10/installer/ubuntu/18.04.repo',
     creates => '/etc/apt/sources.list.d/openproject-ce.list',
     path => ['/usr/bin', '/usr/sbin', '/bin'],
   }~>
@@ -54,10 +54,10 @@ class insidan::openproject {
     ssl_key  => '/etc/letsencrypt/live/insidan.holgerspexet.se/privkey.pem',
 
     # Forward secret stuff
-    proxy_set_header => [ "X-Forwarded-Proto \$scheme", 
+    proxy_set_header => [ "X-Forwarded-Proto \$scheme",
                           "X-Forwarded-Host \$host",
                           "X-Forwarded-Server \$host",
-                          "X-Forwarded-For \$proxy_add_x_forwarded_for", ], 
+                          "X-Forwarded-For \$proxy_add_x_forwarded_for", ],
     # Set the paranoia level to 'high'.
     ssl_protocols => 'TLSv1.2',
     ssl_ciphers =>  'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256',
@@ -72,6 +72,23 @@ class insidan::openproject {
   file { '/srv/test.png':
     ensure => file,
     source => 'puppet:///modules/insidan/holgerlogga.png'
+  }
+
+  # Setup authentication endpoint
+  nginx::resource::location { 'holger-auth':
+    ensure   => present,
+    location => '/holger-auth',
+    server   => 'insidan.holgerspexet.se',
+    ssl      => true,
+    ssl_only => true,
+    proxy    => 'https://insidan.holgerspexet.se/api/v3/users/me',
+    location_cfg_append => {
+      proxy_pass_request_body => 'off',
+    },
+    proxy_set_header => [
+      'Content-Length ""',
+      'X-Original-URI \$request_uri',
+    ],
   }
 
 }

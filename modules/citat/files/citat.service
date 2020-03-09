@@ -1,0 +1,18 @@
+[Unit]
+Description=Holgerspexet Citat! Running the go-app in /srv/holger-quotes
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/citat.pid
+ExecStart=/srv/holger-quotes/holger-quotes
+ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/citat.pid
+TimeoutStopSec=5
+User=holger
+Environment=HOLGER_QUOTES_PORT=3010
+Environment=HOLGER_QUOTES_HOSTING=/citat/
+Environment=HOLGER_QUOTES_SQLIGHT_PATH=/storage/citat/quotes.sql
+WorkingDirectory=/home/holger
+
+[Install]
+WantedBy=multi-user.target

@@ -16,38 +16,45 @@ class arkivet {
     command => '/bin/systemctl daemon-reload',
   }
 
+  file { '/srv/arkivet-testdata':
+    ensure  => directory,
+    owner   => 'arkivet',
+    group   => 'arkivet',
+    recurse => true,
+    source  => '/srv/holger-archive/seed-archive-root',
+  }
+
+  vcsrepo { '/srv/holger-archive':
+    ensure     => latest,
+    provider   => git,
+    owner      => 'holger',
+    group      => 'holger',
+    # Varför? För att github kräver att man har olika deploy-keys för varje repo
+    # щ（ﾟДﾟщ）
+    source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
+    before => File['/srv/arkivet-testdata'],
+  }
+
   class { 'nodejs':
     manage_package_repo       => true,
     repo_url_suffix           => '11.x',
     nodejs_package_ensure     => 'latest',
 #    npm_package_ensure        => 'latest',
-  }
-  -> vcsrepo { '/opt/holger-archive-git':
-    ensure     => latest,
-    provider   => git,
-    # Varför? För att github kräver att man har olika deploy-keys för varje repo
-    # щ（ﾟДﾟщ）
-    source     => 'git@helvetesjavlaskit.github.com:holgerspexet/holger-archive.git',
-  }
-  ~> file { '/srv/holger-archive':
-    source => '/opt/holger-archive-git',
-    recurse => true,
-    owner => 'arkivet',
-  }
-  ~> exec { 'compile holger-archive app':
-    command => 'bash -c "cd /srv/holger-archive; npm install && npm run build"',
+  }->
+  exec { 'compile holger-archive app':
+    command => 'bash -c "cd /srv/holger-archive; npm ci && npm run build"',
     environment => [
       "HOLGER_ARCHIVE_HOSTING=/arkivet/",
       "HOLGER_ARCHIVE_PORT=3001",
-      "HOLGER_ARCHIVE_ROOT=/srv/holger-archive/seed-archive-root",
+      "HOLGER_ARCHIVE_ROOT=/storage/arkivet",
       "HOLGER_ARCHIVE_CLIENT_ROOT=/srv/holger-archive/app/client/dist",
       "HOLGER_ARCHIVE_TMP_DIR=/tmp/arkivet",
     ],
     path => ['/usr/bin', '/usr/sbin', '/bin'],
-    user => 'arkivet',
-    creates => '/srv/holger-archive/app/server/dist',
+    user => 'holger',
     require => File['/home/arkivet'],
     refreshonly => true,
+    subscribe => Vcsrepo['/srv/holger-archive'],
     notify => [ Service['arkivet'], ],
   }
 
@@ -57,6 +64,7 @@ class arkivet {
     require => [
       Exec['compile holger-archive app'],
       Exec['load arkivet unit file'],
+      File['/srv/arkivet-testdata'],
      ],
   }
 
@@ -69,8 +77,9 @@ class arkivet {
     proxy => 'http://localhost:3001',
 
     location_cfg_append => {
-      auth_request => '/api/v3/users/me',
+      auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet',
+      client_max_body_size => "100M",
     },
    }
 
@@ -84,7 +93,7 @@ class arkivet {
     autoindex => 'on',
 
     location_cfg_append => {
-      auth_request => '/api/v3/users/me',
+      auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
       alias => '/storage/media/',
     },
@@ -100,7 +109,7 @@ class arkivet {
     autoindex => 'on',
 
     location_cfg_append => {
-      auth_request => '/api/v3/users/me',
+      auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
       alias => '/storage/gamla-arkivet/',
     },

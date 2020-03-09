@@ -28,4 +28,12 @@ class ssh {
     type => 'ssh-rsa',
     key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC9kMzVie4DwyYqDX+k9SxFTTfE+gcixiON/24rA1qEAp/g1bFkeYO/Apy4xhSxRuQg+4AYE6PfRuAytdhPbWWs/lq6UbXKRm9Tt3aLom6uQmJ3ddQIgCPBtkuCa9rVfEvV1wZkEP3VEn71LQGad0AP1L6wldJszy62p+Vbh8VRUHnvvhsBleEUx2Hq426gzH9QSsiyhiaFBTn921MMmkp+6lPXFZrWipsiJlYZJvhuFrT+d2vMb6ma+BRCP4anWfXIWz8M1L5nb0wIUNGY8HpOa4Tzlf5qUqjO+sQtU/A400HJI12S//DWO3GtPIqfeYfnVffB4hKkqPVvo2eIi6/j',
     }
+
+    # Johan Gustavsson (hemma dator)
+  ssh_authorized_key { 'johan.bo.gustavsson@gmail.com':
+    ensure => present,
+    user => 'root',
+    type => 'ssh-rsa',
+    key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDPdY2f9EESRbljt8vdoJhqaDE/Pc7RNMXuZZqujpPuUwH0c4C+sn5Q3uXJuycCjxDLg/se8k5x/K2hw6hTyIjkl1seO8b7fWPEuCnXHsqd+jYrN0wXHBRKyFS7N21ey5VMYZ+l3jmAMk6qABUF9YGVidw9JUzK6ew95iF0taLR9hG+h5Q2WI2TtuAjyEoDPEeEjYTS8d2njGnV2KzWv6HTQilAXSwB39ygAqVio+cxlxN631kyopsJPwf1ExbyM4CJCAH+/yMRVRZYdG6s5k/Dhv3VPMIEzVkfsKVeTTR2p+LJ2Onvr0ZpuEomL18mrxQwbB+SqGWaoMpkQlp5dsC7',
+    }
 }

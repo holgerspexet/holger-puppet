@@ -7,14 +7,13 @@ class grunkor {
     ensure => present,
   }
 
-  file { '/opt/grunkor':
-    ensure => directory,
-    recurse => true,
-    mode => '744',
-    owner => 'grunkor',
-    source => 'puppet:///modules/grunkor/opt/',
-  }
-
+  vcsrepo { '/opt/grunkor':
+    ensure   => latest,
+    owner    => 'grunkor',
+    provider => git,
+    source   => 'git@github.com:holgerspexet/holger-grunkor.git',
+    notify   => Service['grunkor'],
+  }->
   file { '/lib/systemd/system/grunkor.service':
     source => 'puppet:///modules/grunkor/grunkor.service',
   }~>
