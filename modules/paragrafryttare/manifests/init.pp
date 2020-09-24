@@ -1,14 +1,8 @@
 class paragrafryttare {
-  # package { ['python3-requests',
-               'python3-flask',
-               'uwsgi',
-               'uwsgi-plugin-python3',
-               'python3-pip']:
-  #   ensure => installed,
-  # }
   package { ['python3-flask-migrate',
              'python-flask-sqlalchemy',
-             'python3-flask-restful',]:
+             'python3-flask-restful',
+             'python3-pip',]:
     ensure => installed,
   }
 
