@@ -9,9 +9,9 @@ class paragrafryttare {
   }
 
   user { 'paragrafryttare':
-    ensure      => present,
-    home        => '/paragrafryttare',
-    manage_home => true,
+    ensure     => present,
+    home       => '/paragrafryttare',
+    managehome => true,
   }
 
   vcsrepo { '/opt/paragrafryttare':
