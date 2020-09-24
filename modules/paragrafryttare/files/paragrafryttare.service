@@ -1,0 +1,14 @@
+[Unit]
+Description=Holgerspexets Paragrafryttare. Kör en flask-server via uwsgi.
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/paragrafryttare.pid
+WorkingDirectory=/opt/paragrafryttare/
+ExecStart=/usr/bin/uwsgi --ini paragrafryttare.ini
+User=paragrafryttare
+Environment=DATABASE_URI=/paragrafryttare/paragrafryttare.db
+
+[Install]
+WantedBy=multi-user.target
