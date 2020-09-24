@@ -7,6 +7,7 @@ node 'holgerspexet' {
   include ::citat
   include ::sjung
   include ::lysbackup
+  include ::paragrafryttare
 }
 
 node 'holgerspexet-public' {
