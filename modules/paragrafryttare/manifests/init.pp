@@ -41,7 +41,7 @@ class paragrafryttare {
     cwd         => '/opt/paragrafryttare',
     environment => [
       'FLASK_APP=paragrafryttare',
-      'DATABASE_URI=/paragrafryttare/paragrafryttare.db',
+      'DATABASE_URI=sqlite:////paragrafryttare/paragrafryttare.db',
       'PYTHONPATH=/opt/paragrafryttare/:/paragrafryttare/env/lib/python3.6/site-packages',
     ],
     user        => 'paragrafryttare',

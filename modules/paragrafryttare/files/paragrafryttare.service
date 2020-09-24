@@ -9,7 +9,7 @@ WorkingDirectory=/opt/paragrafryttare/
 ExecStart=/usr/bin/uwsgi --ini paragrafryttare.ini
 User=paragrafryttare
 Environment=PATH=/paragrafryttare/env/bin:/usr/bin:/bin
-Environment=DATABASE_URI=/paragrafryttare/paragrafryttare.db
+Environment=DATABASE_URI=sqlite:////paragrafryttare/paragrafryttare.db
 Environment=PYTHONPATH=/opt/paragrafryttare:/paragrafryttare/env/lib/python3.6/site-packages
 
 [Install]
