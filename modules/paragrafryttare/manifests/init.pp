@@ -29,13 +29,22 @@ class paragrafryttare {
     command => '/bin/systemctl daemon-reload',
   }
 
-  exec { 'migrate paragrafryttare database':
+  exec { 'install python deps':
     refreshonly => true,
-    command     => '/usr/bin/flask db upgrade',
+    cwd         => '/opt/paragrafryttare',
+    command     => '/usr/bin/pip3 install --ignore-installed --install-option="--prefix=/paragrafryttare/env" -r requirements.txt',
+    user        => 'paragrafryttare',
+    subscribe   => Vcsrepo['/opt/paragrafryttare'],
+    notify      => Service['paragrafryttare'],
+  }
+  -> exec { 'migrate paragrafryttare database':
+    refreshonly => true,
+    command     => '/paragrafryttare/env/bin/flask db upgrade',
     cwd         => '/opt/paragrafryttare',
     environment => [
       'FLASK_APP=paragrafryttare',
       'DATABASE_URI=/paragrafryttare/paragrafryttare.db',
+      'PYTHONPATH=/opt/paragrafryttare/:/paragrafryttare/env/lib/python3.6/site-packages',
     ],
     user        => 'paragrafryttare',
     notify      => [Service['paragrafryttare'],], 
