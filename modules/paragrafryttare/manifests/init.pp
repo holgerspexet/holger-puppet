@@ -32,9 +32,11 @@ class paragrafryttare {
   exec { 'migrate paragrafryttare database':
     refreshonly => true,
     command     => '/usr/bin/flask db upgrade',
-    cwd         => '/opt/paragrafryttare'
-    environment => ['FLASK_APP=paragrafryttare',
-                    'DATABASE_URI=/paragrafryttare/paragrafryttare.db', ],
+    cwd         => '/opt/paragrafryttare',
+    environment => [
+      'FLASK_APP=paragrafryttare',
+      'DATABASE_URI=/paragrafryttare/paragrafryttare.db',
+    ],
     user        => 'paragrafryttare',
     notify      => [Service['paragrafryttare'],], 
   }
