@@ -67,6 +67,7 @@ class paragrafryttare {
       uwsgi_pass => 'unix:/tmp/paragrafryttare.sock',
       auth_request => '/holger-auth',
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Fparagrafryttare%2',
+      client_max_body_size => "100M",
     },
   }
 }
