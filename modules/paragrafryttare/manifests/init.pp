@@ -80,7 +80,7 @@ class paragrafryttare {
       include => 'uwsgi_params',
       uwsgi_pass => 'unix:/tmp/paragrafryttare.sock',
       auth_request => '/holger-auth-styrelsen',
-      error_page => '401 = /paragrafryttare/nej',
+      error_page => '403 = /paragrafryttare/nej',
       client_max_body_size => "100M",
     },
   }
