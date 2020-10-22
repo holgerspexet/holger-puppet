@@ -38,7 +38,7 @@ class insidan::openproject {
     minute => 45,
     require => [ File['/opt/pg_dump.sh'], File['/pg_dump'] ]
   }
-  
+
 
 
   # Setup Nginx
@@ -90,5 +90,20 @@ class insidan::openproject {
       'X-Original-URI \$request_uri',
     ],
   }
-
+  # Setup another authentication endpoint
+  nginx::resource::location { 'holger-auth-styrelsen':
+    ensure   => present,
+    location => '/holger-auth-styrelsen',
+    server   => 'insidan.holgerspexet.se',
+    ssl      => true,
+    ssl_only => true,
+    proxy    => 'https://insidan.holgerspexet.se/projects/styrelsen/settings',
+    location_cfg_append => {
+      proxy_pass_request_body => 'off',
+    },
+    proxy_set_header => [
+      'Content-Length ""',
+      'X-Original-URI \$request_uri',
+    ],
+  }
 }
