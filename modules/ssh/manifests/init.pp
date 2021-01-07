@@ -36,4 +36,12 @@ class ssh {
     type => 'ssh-rsa',
     key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDPdY2f9EESRbljt8vdoJhqaDE/Pc7RNMXuZZqujpPuUwH0c4C+sn5Q3uXJuycCjxDLg/se8k5x/K2hw6hTyIjkl1seO8b7fWPEuCnXHsqd+jYrN0wXHBRKyFS7N21ey5VMYZ+l3jmAMk6qABUF9YGVidw9JUzK6ew95iF0taLR9hG+h5Q2WI2TtuAjyEoDPEeEjYTS8d2njGnV2KzWv6HTQilAXSwB39ygAqVio+cxlxN631kyopsJPwf1ExbyM4CJCAH+/yMRVRZYdG6s5k/Dhv3VPMIEzVkfsKVeTTR2p+LJ2Onvr0ZpuEomL18mrxQwbB+SqGWaoMpkQlp5dsC7',
     }
+    
+    # Filip Polbratt
+  ssh_authorized_key { 'octol@ronon':
+    ensure => present,
+    user => 'root',
+    type => 'ssh-rsa',
+    key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDFPUG9+Kq5JMTnW4mlK3pquEC23juTr3vNAB0naH2uzUcsI2vr4RUsf9+BcWopHRgXzAsWdWfZMrryzyxqLkZX6+qY7OVX4bVt/LghSZBVg6hB8L0LzqWZWwMvqkDlAiNCuTGV+1z3Bw2Q9izSUGRqjCxdALtga9ZTpYQlk1iw8odlGIeUvwppi340TNK79KU+Q/6y18MlYN0bVsheUA/OlrWIt4Y8psYB0j7xhjf7jXddA3hIEPq4g1mpzZsIFJuLT4474dk5yqHDNPdKNq2TcfUvx0fCxbLvNDpbIVHewsVJ6rNaPqvKkZp1wioWObVsh4lJVdWjhXTmwJlQIdiD',
+    }
 }
