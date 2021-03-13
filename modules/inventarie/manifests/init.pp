@@ -1,3 +1,4 @@
+class inventarie {
   ::nginx::resource::location { 'inventarie':
     ensure => 'present',
     location => '/inventarie/',
@@ -11,3 +12,4 @@
       error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Finventarie%2F',
     },
   }
+}
