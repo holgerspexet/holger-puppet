@@ -8,6 +8,7 @@ node 'holgerspexet' {
   include ::sjung
   include ::lysbackup
   include ::paragrafryttare
+  include ::inventarie
 }
 
 node 'holgerspexet-public' {
