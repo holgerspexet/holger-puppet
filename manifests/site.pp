@@ -1,4 +1,4 @@
-node 'holgerspexet' {
+node 'holgerspexet.lysator.liu.se' {
   require ::baseinstall
   require ::puppetfetch
   include ::ssh
