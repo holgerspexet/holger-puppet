@@ -33,8 +33,8 @@ class baseinstall {
     ensure => directory,
   }
 
-  class { '::prometheus::node_exporter': 
-    extra_options => '--collector.textfile.directory=/var/lib/prometheus-dropzone',
-    require => File['/var/lib/prometheus-dropzone'],
-  }
+  #class { '::prometheus::node_exporter': 
+  #  extra_options => '--collector.textfile.directory=/var/lib/prometheus-dropzone',
+  #  require => File['/var/lib/prometheus-dropzone'],
+  #}
 }
