@@ -8,7 +8,6 @@ class insidan::certificates {
                  'holgerspexet.lysator.liu.se',
                ],
     manage_cron => true,
-    suppress_cron_output => true,
     cron_hour  => '4',
     cron_minute => '13',
     pre_hook_commands => ['/bin/systemctl stop nginx',],
