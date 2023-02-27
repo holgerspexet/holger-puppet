@@ -9,7 +9,7 @@ class wordpress::certificates {
                  'www.holgerspexet.se',
                ],
     manage_cron => true,
-    suppress_cron_output => true,
+    cron_output => 'log',
     cron_hour  => '4',
     cron_minute => '17',
     pre_hook_commands => ['/bin/systemctl stop apache',],
