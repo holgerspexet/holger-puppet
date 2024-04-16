@@ -12,6 +12,12 @@ class ssh {
     type => 'ssh-rsa',
     key => 'AAAAB3NzaC1yc2EAAAADAQABAAACAQC3ZnOfK/Yf61BnZFFPynLBU1p3SPAgHyCiSqno7rdrLpcHMO5IeAIZyytY5uhUp9LVxznLePK5LfSZGzAGJ/lIIr/Pg9Gz2l7LFYT4TJahHvSGqB6NPnumVcDmtyh4KYgPHklZ+2QhGukUrMkIiaanc5RMHqC+lfC4p8KslwUTuaFFhexL0c/cwElL6KHpX3HHCBuJ7USBBkYehYvG8+c2+9KxQ8PWBODa6ygVmWo4MLweuBfNv6+6ba/yGGvMQrBZ/JAip3JVy8IEWnh/WZQFeAwPdWQoNPVxlCyvxd0FSj/zKAd9L5bMJB07O4rzsM9/38mSuBukpbkyHs6WAxW+joT01LEHXjtvnIurECnWbf6tYb3mCcmSUqJoNMlAkYICFusqyQuTkvf4dStFP/Epp3NjhOdEnOCmAMEiWYKvDJbAxJwxnu9wkiARJWzkJbYD0ZiHME1BEzYjnlpUnmZ0p36nkDC9ViP+0JIpQUx8leEUyprk9uyyj34o7l+tda5dDVS5mVUJLZiMJpoZ1tMhOkAm3u4lK3myj25bcv2ksZnFe+0hvJUZ1DMnTGXU8S2dCYkgSqKJeaqxNwRtHUzbVWYMYe5PWkOFjm9tEuQiBabw8mjShFF7b2yXX5T10keci2dm23r8PhvuDwAaW3gpleFZie3oR1pSaEscKg3A+w==',
     }
+  ssh_authorized_key { 'hx@hx.ax':
+    ensure => present,
+    user => 'root',
+    type => 'ssh-rsa',
+    key => 'AAAAB3NzaC1yc2EAAAADAQABAAABgQC79WVDH7CGoS8ZGq2y/OJMhTrJJQ+tEb4SlaPpN6t49XBOLjpHBnOU+8deyDE3p7bOx6oHMY4Cj6qZ5yBPcyrPpDuYeDxsY4jL2LVFz9PIAlfONYy2FvsSXGsKkspx34z3ef/lZg28fMidt666iJArdxjCpnfmJ/6udOvbZOJ97ixfF8/iJ0pYHx/oasAj7TNXtaglXB0yUPJDsZSm6dg0n70w6gqANW6Ef6wKoIlVKVb1XThVBuqujsoCQ2ZXm4xj+UyDDvNYdLO6+ZZbuesxw8rmdQ3zWie9vLU+Kp7VVDrHBVsLjWptOu+yx0/IMDhsxTMHnRGNluqv4uT8TXTWccyXz3GtHOy/50lA7AL70IaF6/NjHzXCH3YXxztDSs5UitlDPsypuZrYVPQqAanoHRwLyUvxhCp4wHGqLrMnCgcz/3Rj4bFEf8KW7Rm9ypKlpe0z6r9gvd0el04Uf0p8GFjNzUtd3EAovNKIhEHbqtH/VHzGZUk1nffXYe/WWRc=',
+    }
 
   # Jon Dybeck
   ssh_authorized_key { 'me@tinfoil':
