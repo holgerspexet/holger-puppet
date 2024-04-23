@@ -39,7 +39,7 @@ class wordpress {
 
   apache::vhost { 'holgerspexet-public.lysator.liu.se ssl':
     servername => 'holgerspexet-public.lysator.liu.se',
-    port    => '443',
+    port    => 443,
     docroot => '/srv/holgerspexet-wordpress',
     ssl   => true,
     ssl_cert  => '/etc/letsencrypt/live/holgerspexet.se/fullchain.pem',
@@ -48,7 +48,7 @@ class wordpress {
 
   apache::vhost { 'holgerspexet-public.lysator.liu.se non-ssl':
     servername => 'holgerspexet-public.lysator.liu.se',
-    port => '80',
+    port => 80,
     docroot => '/var/www/redirect',
     redirect_status => 'permanent',
     redirect_dest => 'https://holgerspexet-public.lysator.liu.se',
@@ -56,7 +56,7 @@ class wordpress {
 
   apache::vhost { 'holgerspexet.se ssl':
     servername => 'holgerspexet.se',
-    port    => '443',
+    port    => 443,
     docroot => '/srv/holgerspexet-wordpress',
     ssl   => true,
     ssl_cert  => '/etc/letsencrypt/live/holgerspexet.se/fullchain.pem',
@@ -65,7 +65,7 @@ class wordpress {
 
   apache::vhost { 'holgerspexet.se non-ssl':
     servername => 'holgerspexet.se',
-    port => '80',
+    port => 80,
     docroot => '/var/www/redirect',
     redirect_status => 'permanent',
     redirect_dest => 'https://holgerspexet.se',
@@ -74,7 +74,7 @@ class wordpress {
 
   apache::vhost { 'www.holgerspexet.se ssl':
     servername => 'www.holgerspexet.se',
-    port    => '443',
+    port    => 443,
     docroot => '/var/www/redirect',
     redirect_status => 'permanent',
     redirect_dest => 'https://holgerspexet.se',
@@ -85,7 +85,7 @@ class wordpress {
 
   apache::vhost { 'www.holgerspexet.se non-ssl':
     servername => 'www.holgerspexet.se',
-    port => '80',
+    port => 80,
     docroot => '/var/www/redirect',
     redirect_status => 'permanent',
     redirect_dest => 'https://holgerspexet.se',
