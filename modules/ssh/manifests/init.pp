@@ -36,11 +36,11 @@ class ssh {
     }
 
   # Jon Dybeck
-  ssh_authorized_key { 'jondy94@drstest2-105.ad.liu.se':
+  ssh_authorized_key { 'cardno:000610154725':
     ensure => present,
     user => 'root',
     type => 'ssh-rsa',
-    key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC9kMzVie4DwyYqDX+k9SxFTTfE+gcixiON/24rA1qEAp/g1bFkeYO/Apy4xhSxRuQg+4AYE6PfRuAytdhPbWWs/lq6UbXKRm9Tt3aLom6uQmJ3ddQIgCPBtkuCa9rVfEvV1wZkEP3VEn71LQGad0AP1L6wldJszy62p+Vbh8VRUHnvvhsBleEUx2Hq426gzH9QSsiyhiaFBTn921MMmkp+6lPXFZrWipsiJlYZJvhuFrT+d2vMb6ma+BRCP4anWfXIWz8M1L5nb0wIUNGY8HpOa4Tzlf5qUqjO+sQtU/A400HJI12S//DWO3GtPIqfeYfnVffB4hKkqPVvo2eIi6/j',
+    key => 'AAAAB3NzaC1yc2EAAAADAQABAAACAQC7Pbb1Gy7obqcJHj+iR2BjRov640pcLLPe4a13xfaNxVhkdJS/w7xJWSPQMYSgAXpT0IZleFpOQdn2ksPXSLCFjgTNNAnQgiXf5vRAQptfTweuTWfye5lrC/zn6aMEI2gSp1O/GtKNjttC69MEH6jC+R/tYs9iqpyZYQw8U8dJjkJWrAzS8tTDJLnnRX3dPF6x88GUuEwcqNjuh7/TACEHgNA6M0czNx5j21cVmWKDFRb2onT5wJ/aIZlLCf049/JPLkJ+jd52R7TEztry4PGSr9aJvZp1umDnfYzviev1aL6g4MAqnSuLyd+TP9bSBixgj4DAkgJuZCFLJsIy0jjOm2kQTPwpCorBdW21RaVDor9zNLf+xMT6pl5GEYNJ1kdh+V61dxxFJ+EntCT9LBKH0hH35YLzt/PcPBL/ld8JprH0p72hn493A28XXNVWwFzsL/cQFh22VL2/RnLVgy+IdNjXfsZ4lQy8TLCgIBaWBDffrpWh/SFNZ+gB+YiPkYSWcjFNIqJnvKpRCw4BWFg4DpszonC75IvMS1Wmwz3SrNwZ/fP9Cs+gG2+Jey08LcFGzo5azs/EP3V667hs0ftZBipvboj4DTz+CY6aUs8zu66E7rNU9wGO5XvNWyCuz/wUPnziJbe3lBBGwGK0FFn6aH5SjpouVCpalIjETRoyyQ==',
     }
 
     # Johan Gustavsson (hemma dator)
