@@ -5,6 +5,14 @@ class ssh {
     home => '/root',
   }
 
+  # Daniel Häggmyr
+  ssh_authorized_key { 'daniel@haggmyr.se':
+    ensure => present,
+    user => 'root',
+    type => 'ssh-ed25519',
+    key => 'AAAAC3NzaC1lZDI1NTE5AAAAILcYUDFv0bqhR/dFhQ6BTuaxAbh2R/3iUstICM0Yq2/f'
+  }
+
   # Henrik Henriksson
   ssh_authorized_key { 'cartno:000609070933':
     ensure => present,
