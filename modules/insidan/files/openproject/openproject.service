@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenProject (podman-compose stack)
+After=network-online.target nftables.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/openproject
+ExecStart=/usr/bin/podman-compose -f /opt/openproject/docker-compose.yml up -d
+ExecStop=/usr/bin/podman-compose -f /opt/openproject/docker-compose.yml down
+TimeoutStartSec=30min
+TimeoutStopSec=5min
+
+[Install]
+WantedBy=multi-user.target

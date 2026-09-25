@@ -11,10 +11,4 @@ class puppetfetch {
     user    => root,
     minute  => 55,
   }
-  
-  tidy { '/opt/puppetlabs/puppet/cache/reports':
-    age => '12w',
-    recurse => true,
-    rmdirs => true,
-  }
 }

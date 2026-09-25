@@ -1,16 +1,21 @@
-class insidan::certificates {
+class insidan::certificates (
+  # Certificate name and primary domain default to the machine fqdn.
+  # Extra SANs can be passed explicitly where needed.
+  String $hostname   = $facts['networking']['fqdn'],
+  Array    $domains  = [$facts['networking']['fqdn']],
+) {
   class { '::letsencrypt':
-    email => 'hx@hx.ax', # Putting in my personal email for now
+    email => 'webmaster@holgerspexet.se',
   }
 
-  letsencrypt::certonly { 'insidan.holgerspexet.se':
-    domains => [ 'insidan.holgerspexet.se',
-                 'holgerspexet.lysator.liu.se',
-               ],
+  letsencrypt::certonly { $hostname:
+    domains     => $domains,
     manage_cron => true,
-    cron_hour  => '4',
+    cron_hour   => '4',
     cron_minute => '13',
-    pre_hook_commands => ['/bin/systemctl stop nginx',],
-    post_hook_commands => ['/bin/systemctl restart nginx',],
+    # '|| true' for the initial bootstrap, when nginx is not even
+    # installed yet. pls fix
+    pre_hook_commands  => ['/bin/systemctl stop nginx || true',],
+    post_hook_commands => ['/bin/systemctl restart nginx || true',],
   }
 }

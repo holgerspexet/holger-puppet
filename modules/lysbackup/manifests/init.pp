@@ -6,7 +6,7 @@ class lysbackup {
   file {'/opt/lysbackup/':
     ensure  => directory,
     recurse => true,
-    mode => '0744',
+    mode => '0755',
     source => 'puppet:///modules/lysbackup/opt/lysbackup/',
   }
 

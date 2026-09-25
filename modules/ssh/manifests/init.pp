@@ -1,9 +1,24 @@
 class ssh {
   user { 'root':
     ensure => present,
-    purge_ssh_keys => true,
     home => '/root',
   }
+
+  # sshd StrictModes refuses pubkey auth if root's home is owned by
+  # anyone else (this actually locked out new ssh sessions once).
+  file { '/root':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0700',
+  }
+
+  # The keys below are the "allowlist" of root access. purge_ssh_keys
+  # is intentionally NOT set yet: re-enable it (purge_ssh_keys => true
+  # on the root user above) only after verifying that
+  # /root/.ssh/authorized_keys on every node contains nothing beyond
+  # these keys, otherwise an apply deletes unlisted keys and locks
+  # people out.
 
   # Daniel Häggmyr
   ssh_authorized_key { 'daniel@haggmyr.se':

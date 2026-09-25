@@ -1,14 +1,26 @@
-class arkivet {
-  user { 'arkivet':
+class arkivet (
+  String $hostname = $facts['networking']['fqdn'],
+  # The NFS /storage mount only exists at Lysator (babelfish). Off for
+  # any other machine unless explicitly requested.
+  Boolean $manage_nfs = false,
+) {
+  # The web-apps (arkivet, citat, ...) all run as this user, but it was
+  # never actually declared. Fixing that.
+  user { 'holger':
     ensure => present,
-    home => '/home/arkivet',
-  }
-  file { '/home/arkivet':
-    ensure => directory,
-    owner => 'arkivet',
+    home   => '/home/holger',
+    shell  => '/bin/bash',
+    managehome => true,
   }
 
-  file { '/lib/systemd/system/arkivet.service':
+  file { '/home/holger':
+    ensure => directory,
+    owner  => 'holger',
+    group  => 'holger',
+    mode   => '0755',
+  }
+
+  file { '/etc/systemd/system/arkivet.service':
     source => 'puppet:///modules/arkivet/arkivet.service',
   }~>
   exec { 'load arkivet unit file':
@@ -16,10 +28,18 @@ class arkivet {
     command => '/bin/systemctl daemon-reload',
   }
 
+  # The unit used to live in /lib/systemd/system. Remove the stale
+  # copy left behind on upgraded machines so it cannot shadow or
+  # confuse; /etc/systemd/system wins anyway.
+  file { '/lib/systemd/system/arkivet.service':
+    ensure => absent,
+  }
+  File['/lib/systemd/system/arkivet.service'] ~> Exec['load arkivet unit file']
+
   file { '/srv/arkivet-testdata':
     ensure  => directory,
-    owner   => 'arkivet',
-    group   => 'arkivet',
+    owner   => 'holger',
+    group   => 'holger',
     recurse => true,
     source  => '/srv/holger-archive/seed-archive-root',
   }
@@ -35,14 +55,13 @@ class arkivet {
     before => File['/srv/arkivet-testdata'],
   }
 
-  class { 'nodejs':
-    manage_package_repo       => true,
-    repo_url_suffix           => '11.x',
-    nodejs_package_ensure     => 'latest',
-#    npm_package_ensure        => 'latest',
+  # Node.js straight from the distro (LTS in Ubuntu 26.04), the old
+  # nodejs module with its EOL 11.x repo is gone.
+  package { 'nodejs':
+    ensure => installed,
   }->
   exec { 'compile holger-archive app':
-    command => 'bash -c "cd /srv/holger-archive; npm ci && npm run build"',
+    command => 'npm ci && npm run build',
     environment => [
       "HOLGER_ARCHIVE_HOSTING=/arkivet/",
       "HOLGER_ARCHIVE_PORT=3001",
@@ -50,12 +69,12 @@ class arkivet {
       "HOLGER_ARCHIVE_CLIENT_ROOT=/srv/holger-archive/app/client/dist",
       "HOLGER_ARCHIVE_TMP_DIR=/tmp/arkivet",
     ],
-    path => ['/usr/bin', '/usr/sbin', '/bin'],
-    user => 'holger',
-    require => File['/home/arkivet'],
+    cwd     => '/srv/holger-archive',
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    user    => 'holger',
     refreshonly => true,
-    subscribe => Vcsrepo['/srv/holger-archive'],
-    notify => [ Service['arkivet'], ],
+    subscribe   => Vcsrepo['/srv/holger-archive'],
+    notify      => [Service['arkivet'],],
   }
 
   service { 'arkivet':
@@ -71,14 +90,14 @@ class arkivet {
   ::nginx::resource::location { 'arkivet':
     ensure => present,
     location => '/arkivet/',
-    server => 'insidan.holgerspexet.se',
+    server => $hostname,
     ssl => true,
     ssl_only => true,
     proxy => 'http://localhost:3001',
 
     location_cfg_append => {
       auth_request => '/holger-auth',
-      error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet',
+      error_page => "401 = /login?back_url=https%3A%2F%2F${hostname}%2Farkivet",
       client_max_body_size => "100M",
     },
    }
@@ -86,7 +105,7 @@ class arkivet {
   ::nginx::resource::location { 'arkivet-media-directory-listing':
     ensure => present,
     location => '/arkivet/filer/media/',
-    server => 'insidan.holgerspexet.se',
+    server => $hostname,
     ssl => true,
     ssl_only => true,
     index_files => ['nogenerics.go'], # Needs to be filled with something -.-
@@ -94,7 +113,7 @@ class arkivet {
 
     location_cfg_append => {
       auth_request => '/holger-auth',
-      error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
+      error_page => "401 = /login?back_url=https%3A%2F%2F${hostname}%2Farkivet%2Ffiler%2F",
       alias => '/storage/media/',
     },
    }
@@ -102,7 +121,7 @@ class arkivet {
   ::nginx::resource::location { 'arkivet-directory-listing':
     ensure => present,
     location => '/arkivet/filer/',
-    server => 'insidan.holgerspexet.se',
+    server => $hostname,
     ssl => true,
     ssl_only => true,
     index_files => ['nogenerics.go'], # Needs to be filled with something -.-
@@ -110,19 +129,21 @@ class arkivet {
 
     location_cfg_append => {
       auth_request => '/holger-auth',
-      error_page => '401 = /login?back_url=https%3A%2F%2Finsidan.holgerspexet.se%2Farkivet%2Ffiler%2F',
+      error_page => "401 = /login?back_url=https%3A%2F%2F${hostname}%2Farkivet%2Ffiler%2F",
       alias => '/storage/gamla-arkivet/',
     },
    }
 
-   file { '/storage':
-     ensure => directory,
-   }
-   ~> file_line { 'fstab /storage':
-     path => '/etc/fstab',
-     line => 'babelfish.lysator.liu.se:/storage/inhysningar/holger /storage nfs4 defaults,noatime 0 0',
-   }
+  file { '/storage':
+    ensure => directory,
+  }
 
+  file_line { 'fstab /storage':
+    ensure  => $manage_nfs ? { true => 'present', false => 'absent' },
+    path    => '/etc/fstab',
+    line    => 'babelfish.lysator.liu.se:/storage/inhysningar/holger /storage nfs4 defaults,noatime 0 0',
+    require => File['/storage'],
+  }
 
-  include nginx
+  include ::nginx
 }

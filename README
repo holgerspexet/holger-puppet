@@ -1,1 +1,52 @@
 Puppet configuration for Holgerspexet
+
+Runs with OpenVox (the community fork of Puppet) via `puppet apply`,
+driven by a hourly cronjob (puppetfetch). No puppet master, no hiera.
+
+## Nodes
+
+* `insidan.holgerspexet.se` - production insidan server (upgraded
+  18.04 -> 26.04)
+* `holgerlabb.hx.ax` - temporary test server, runs the whole insidan
+  stack; deleted once the migration is done
+* `holgerspexet-public` - production public/wordpress server
+  (a separate machine)
+
+## Bootstrap a new node
+
+1. Install OpenVox. Enable the repository and install the agent:
+   ```
+   wget https://apt.voxpupuli.org/openvox8-release-ubuntu26.04.deb
+   dpkg -i openvox8-release-ubuntu26.04.deb
+   apt update && apt install openvox-agent
+   ```
+   (binaries end up in /opt/puppetlabs/bin, same as puppet always had)
+
+2. Make sure the machine has its proper fqdn (hostname + /etc/hosts).
+   Everything else takes its name from the `networking.fqdn` fact.
+
+3. Clone this repo to /opt/holger-puppet, add the deploy keys needed
+   for the private repos (holger-puppet, holger-archive, grunkor), and
+   apply once by hand:
+   ```
+   cd /opt/holger-puppet
+   git submodule update --init
+   /opt/puppetlabs/bin/puppet apply --modulepath=/opt/holger-puppet/modules/ \
+       /opt/holger-puppet/manifests/site.pp
+   ```
+   The cronjob (`puppetfetcher`, hour :55) takes over from there.
+
+4. Notes:
+   * The first apply bootstraps the letsencrypt certificate; nginx will
+     not start before the cert exists, that is expected.
+   * OpenProject runs as a podman-compose stack in /opt/openproject.
+     The first boot takes a few minutes (db migrations).
+   * If a private git repo has no deploy key on the machine its puppet
+     run fails until a key is added. Everything else is unaffected.
+   * ssh authorized keys are NOT managed here. Never add
+     `purge_ssh_keys` to the root user - the keys are not in this
+     repository and purging locks everyone out.
+
+## Upgrading OpenProject (deb -> compose)
+
+See disaster-recovery.md, section about OpenProject.

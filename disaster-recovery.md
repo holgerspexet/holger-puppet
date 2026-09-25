@@ -10,7 +10,7 @@ Det här dokumentet är rätt tekniskt och bör läsas av någon med måttliga k
 
 Chilledill!
 
-Det finns några personer och grupper man kan kontakta för att få hjälp. Systemen sattes ursprungligen upp av Henrik Henriksson `<hx@hx.ax>` år 2019, vilket kan vara en bra startpunkt.
+Det finns några personer och grupper man kan kontakta för att få hjälp. Systemen sattes ursprungligen upp av den dåvarande webmastern år 2019, vilket kan vara en bra startpunkt.
 
 På universitetet finns det lite hjälp att få. Datorföreningen Lysator kan eventuellt vara till hjälp, kontakta `<root@lysator.liu.se>`. Det rekommenderas att ta med kakor i så fall. Även LiSS har troligen medlemmar som kan hjälpa till.
 
@@ -75,9 +75,92 @@ _Se till att uppdatera alla SPF-records!_
 
 ## Om allt annat skiter sig
 
-*   Dumpa in wordpressinstallationen på godtycklig server med apache och lämna till nästa ansvarige. Spring.
-*   Installera openproject på en server och återställ databasen. OpenProject har år 2019 en typ helautomagisk installer som löser allt. Kör den, döda servicen, dumpa in databasen, starta servicen, släng på en reverse proxy och hoppas på det bästa.  Finns ingen databas att återställa, installera OpenProject, acceptera smärtan och sätt upp allt igen, det borde inte vara _så_ jobbigt...
+*   Dumpa in wordpressinstallationen på godtycklig server med apache och lämna till nästa ansvariga. Spring.
+*   OpenProject är numera inte längre ett debpaket - paketen är döda för nya distributioner. Kör i stället den officiella
+    compose-stacken via podman, se sektionen "OpenProject: deb -> compose" nedan. Om du ska återställa databas från
+    den gamla debinstallationen, följ den sektionen, annars blir det gråt.
 *   Ät en kaka.
+
+
+# OpenProject: deb -> compose
+
+Sedan 2026 körs OpenProject som podman-compose-stack i `/opt/openproject`
+(hanterad av `insidan::openproject`, systemd-enhet `openproject.service`).
+web ligger på `127.0.0.1:6000` och hocuspocus-websocketen på
+`127.0.0.1:6001`, nginx (i `insidan::openproject`) tar hand om TLS och
+vidarebefordran.
+
+## Återställa data från den gamla debinstallationen (OpenProject 10.x)
+
+Officiell guide:
+`https://www.openproject.org/docs/installation-and-operations/misc/packaged-docker-migration/`
+
+1.  Dumpa databasen som *plain SQL* (inte det binära pgdump-formatet i
+    det inbyggda backup-scriptet, det spelar inte med postgres 17):
+
+    ```
+    pg_dump $(sudo openproject config:get DATABASE_URL) -x -O > openproject.sql
+    ```
+
+2.  Plocka hem hemligheten, annars ogiltigförklaras alla sessions-cookies:
+
+    ```
+    sudo openproject config:get SECRET_KEY_BASE
+    # eller, på riktigt gamla installationer:
+    sudo openproject config:get SECRET_TOKEN
+    ```
+
+3.  Starta stacken en gång (den seedar en tom instans), stoppa sedan
+    webb-tjänsterna:
+
+    ```
+    systemctl start openproject
+    systemctl stop openproject   # eller: podman-compose -f /opt/openproject/docker-compose.yml stop web worker cron seeder
+    ```
+
+4.  En dump från 10.x kan inte läggas in direkt i 17.x. Kör det officiella
+    migrationsskriptet, som migrerar major version för major version:
+
+    ```
+    curl -fsSL -o migrate https://raw.githubusercontent.com/opf/openproject/dev/bin/migrate
+    chmod +x migrate
+    ./migrate /path/to/openproject.sql
+    # -> openproject-migrated.sql.gz
+    ```
+
+5.  Lägg in databasen i db-containern:
+
+    ```
+    cd /opt/openproject
+    podman-compose -f docker-compose.yml exec -T db psql -U postgres -c 'DROP DATABASE IF EXISTS openproject WITH (FORCE);'
+    podman-compose -f docker-compose.yml exec -T db psql -U postgres -c 'CREATE DATABASE openproject OWNER postgres;'
+    gunzip -c openproject-migrated.sql.gz | podman-compose -f docker-compose.yml exec -T db psql -U postgres -d openproject
+    ```
+
+6.  Bifogade filer ligger i volymen `opdata`, monterad som
+    `/var/openproject/assets` i containrarna, under `files/`:
+
+    ```
+    podman volume ls | grep opdata
+    tar -xzf attachments-<ts>.tar.gz -C <punkt-i-volym>/var/openproject/assets/files
+    chown -R 1000:1000 <...>
+    ```
+
+7.  Kör klart migreringarna och starta:
+
+    ```
+    podman-compose -f docker-compose.yml run --rm seeder
+    systemctl start openproject
+    ```
+
+    Om `seeder` krashloopar saknas migrationsstegen i punkt 4.
+
+## Uppgradering i compose-världen
+
+Bara X -> X+1 stöds officiellt; gå inte förbi 16.x på vägen till 17.x.
+`TAG` i `/opt/openproject/.env` styr versionen. Kom ihåg:
+`SECRET_KEY_BASE` ska aldrig ändras, alla cookies ogiltigförklaras.
+
 
 
 En kopia av det här dokumentet finns på OpenProject-wikin. Se till att uppdatera den också!

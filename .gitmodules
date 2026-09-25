@@ -1,9 +1,7 @@
 [submodule "modules/stdlib"]
 	path = modules/stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib
-[submodule "modules/ntp"]
-	path = modules/ntp
-	url = https://github.com/puppetlabs/puppetlabs-ntp
+	branch = v9.7.0
 [submodule "modules/nginx"]
 	path = modules/nginx
 	url = https://github.com/voxpupuli/puppet-nginx.git
@@ -15,31 +13,19 @@
 	url = https://github.com/voxpupuli/puppet-letsencrypt.git
 [submodule "modules/inifile"]
 	path = modules/inifile
-	url = https://github.com/puppetlabs/puppetlabs-inifile.git
+	url = https://github.com/puppetlabs/puppetlabs-inifile
 [submodule "modules/vcsrepo"]
 	path = modules/vcsrepo
-	url = https://github.com/puppetlabs/puppetlabs-vcsrepo.git
+	url = https://github.com/puppetlabs/puppetlabs-vcsrepo
 [submodule "modules/epel"]
 	path = modules/epel
-	url = https://github.com/stahnma/puppet-module-epel
+	url = https://github.com/voxpupuli/puppet-epel.git
 [submodule "modules/apache"]
 	path = modules/apache
-	url = https://github.com/puppetlabs/puppetlabs-apache.git
-[submodule "modules/nodejs"]
-	path = modules/nodejs
-	url = https://github.com/voxpupuli/puppet-nodejs.git
-[submodule "modules/apt"]
-	path = modules/apt
-	url = https://github.com/puppetlabs/puppetlabs-apt.git
-[submodule "modules/prometheus"]
-	path = modules/prometheus
-	url = https://github.com/voxpupuli/puppet-prometheus.git
+	url = https://github.com/puppetlabs/puppetlabs-apache
 [submodule "modules/archive"]
 	path = modules/archive
 	url = https://github.com/voxpupuli/puppet-archive.git
-[submodule "modules/systemd"]
-	path = modules/systemd
-	url = https://github.com/camptocamp/puppet-systemd.git
-[submodule "modules/translate"]
-	path = modules/translate
-	url = https://github.com/puppetlabs/puppetlabs-translate.git
+[submodule "modules/apt"]
+	path = modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt

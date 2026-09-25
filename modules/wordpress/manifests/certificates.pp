@@ -1,6 +1,6 @@
 class wordpress::certificates {
     class { '::letsencrypt':
-    email => 'hx@hx.ax', # Putting in my personal email for now
+    email => 'webmaster@holgerspexet.se',
   }
 
   letsencrypt::certonly { 'holgerspexet.se':
