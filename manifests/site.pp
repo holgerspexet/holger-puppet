@@ -35,10 +35,9 @@ node 'insidan.holgerspexet.se' {
 
   class { 'grunkor': }
 
-  # /storage is the NFS mount from babelfish.
-  class { 'arkivet':
-    manage_nfs => true,
-  }
+  # TODO: arkivet's /storage data root needs hooking up to new
+  # storage; babelfish is gone.
+  include ::arkivet
 
   include ::citat
   include ::sjung

@@ -1,8 +1,5 @@
 class arkivet (
   String $hostname = $facts['networking']['fqdn'],
-  # The NFS /storage mount only exists at Lysator (babelfish). Off for
-  # any other machine unless explicitly requested.
-  Boolean $manage_nfs = false,
 ) {
   # The web-apps (arkivet, citat, ...) all run as this user, but it was
   # never actually declared. Fixing that.
@@ -134,15 +131,10 @@ class arkivet (
     },
    }
 
+  # TODO: /storage used to be an NFS mount from babelfish, which is
+  # gone. Hook it up to the new storage solution once decided.
   file { '/storage':
     ensure => directory,
-  }
-
-  file_line { 'fstab /storage':
-    ensure  => $manage_nfs ? { true => 'present', false => 'absent' },
-    path    => '/etc/fstab',
-    line    => 'babelfish.lysator.liu.se:/storage/inhysningar/holger /storage nfs4 defaults,noatime 0 0',
-    require => File['/storage'],
   }
 
   include ::nginx

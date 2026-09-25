@@ -5,9 +5,10 @@ class citat (
   # of this class on every node. Require it here instead of
   # redeclaring (which puppet refuses).
 
-  # The quotes database lives under /storage which used to be an NFS
-  # mount from Lysator (declared in arkivet); make sure the citat
+  # The quotes database lives under /storage; make sure the citat
   # directory exists locally too.
+  # TODO: /storage lost its NFS backing (babelfish is gone); hook it
+  # up to the new storage solution once decided.
   file { '/storage/citat':
     ensure => directory,
     owner  => 'holger',
