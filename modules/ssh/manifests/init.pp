@@ -1,7 +1,8 @@
 class ssh {
   user { 'root':
-    ensure => present,
-    home => '/root',
+    ensure          => present,
+    purge_ssh_keys  => true,
+    home            => '/root',
   }
 
   # sshd StrictModes refuses pubkey auth if root's home is owned by
@@ -13,12 +14,12 @@ class ssh {
     mode   => '0700',
   }
 
-  # The keys below are the "allowlist" of root access. purge_ssh_keys
-  # is intentionally NOT set yet: re-enable it (purge_ssh_keys => true
-  # on the root user above) only after verifying that
-  # /root/.ssh/authorized_keys on every node contains nothing beyond
-  # these keys, otherwise an apply deletes unlisted keys and locks
-  # people out.
+  # The keys below are the allowlist of root access, and
+  # purge_ssh_keys (on the root user above) is ACTIVE: on every node
+  # running this class (insidan, holgerspexet-public), an
+  # apply deletes every key in /root/.ssh/authorized_keys that is not
+  # declared here. Add new keyholders as a ssh_authorized_key resource
+  # below — never rely on manually added keys surviving an apply.
 
   # Daniel Häggmyr
   ssh_authorized_key { 'daniel@haggmyr.se':
@@ -66,5 +67,13 @@ class ssh {
     user => 'root',
     type => 'ssh-rsa',
     key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDFPUG9+Kq5JMTnW4mlK3pquEC23juTr3vNAB0naH2uzUcsI2vr4RUsf9+BcWopHRgXzAsWdWfZMrryzyxqLkZX6+qY7OVX4bVt/LghSZBVg6hB8L0LzqWZWwMvqkDlAiNCuTGV+1z3Bw2Q9izSUGRqjCxdALtga9ZTpYQlk1iw8odlGIeUvwppi340TNK79KU+Q/6y18MlYN0bVsheUA/OlrWIt4Y8psYB0j7xhjf7jXddA3hIEPq4g1mpzZsIFJuLT4474dk5yqHDNPdKNq2TcfUvx0fCxbLvNDpbIVHewsVJ6rNaPqvKkZp1wioWObVsh4lJVdWjhXTmwJlQIdiD',
+    }
+
+  # Johannes (webmaster 2026)
+  ssh_authorized_key { 'johannes.kallstad@gmail.com':
+    ensure => present,
+    user => 'root',
+    type => 'ssh-ed25519',
+    key => 'AAAAC3NzaC1lZDI1NTE5AAAAINX1VsnrqDIiiCE3YYo1r4IppRFPwdek5+2/30VfgRPW',
     }
 }
