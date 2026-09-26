@@ -9,14 +9,14 @@ node 'insidan.holgerspexet.se' {
   include ::puppetfetch
   include ::ssh
 
-  # Certificate for the machine itself plus the old lysator name and
-  # the byggerom vhost names (the old setup served holgerspexet.se
-  # with a non-matching certificate).
+  # Certificate for the machine itself plus the old lysator name.
+  # NOTE: holgerspexet.se / www.holgerspexet.se belong to the public
+  # wordpress box (holgerspexet-public) and its DNS points there —
+  # the standalone ACME challenge for them can never pass from this
+  # machine, so they must NOT be in this certificate.
   class { 'insidan::certificates':
     domains => ['insidan.holgerspexet.se',
                 'holgerspexet.lysator.liu.se',
-                'holgerspexet.se',
-                'www.holgerspexet.se',
                ],
   }
 
