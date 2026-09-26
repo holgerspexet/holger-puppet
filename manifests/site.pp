@@ -35,9 +35,16 @@ node 'insidan.holgerspexet.se' {
 
   class { 'grunkor': }
 
+  # Parked until (a) the /storage backing is hooked up and (b) the
+  # holger-archive deploy key works on this machine again (the
+  # git@helvetesjavlaskit.github.com ssh alias). When it returns it
+  # brings its vcsrepo, build, service and the /arkivet/ nginx
+  # locations. The shared holger user + /storage live in citat while
+  # arkivet is parked.
+  #
   # TODO: arkivet's /storage data root needs hooking up to new
   # storage; babelfish is gone.
-  include ::arkivet
+  #include ::arkivet
 
   include ::citat
   include ::sjung
@@ -57,7 +64,9 @@ node 'holgerlabb.hx.ax' {
   include ::puppetfetch
   include ::ssh
   include ::insidan
-  include ::arkivet
+  # arkivet is parked, see the production node for details; the shared
+  # holger user + /storage are declared by citat meanwhile.
+  #include ::arkivet
   include ::citat
   include ::sjung
   include ::inventarie

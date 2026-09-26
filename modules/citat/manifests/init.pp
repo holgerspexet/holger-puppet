@@ -1,9 +1,26 @@
 class citat (
   String $hostname = $facts['networking']['fqdn'],
 ) {
-  # User[holger] is declared in arkivet, which is always a companion
-  # of this class on every node. Require it here instead of
-  # redeclaring (which puppet refuses).
+  # The shared web-app user and the /storage root used to be declared
+  # by arkivet. arkivet is parked (no /storage backing and no working
+  # deploy key for its git repo), so they live here for now. When
+  # arkivet is re-enabled, refactor these into a shared class instead
+  # of declaring them twice.
+  user { 'holger':
+    ensure     => present,
+    home       => '/home/holger',
+    shell      => '/bin/bash',
+    managehome => true,
+  }
+  file { '/home/holger':
+    ensure => directory,
+    owner  => 'holger',
+    group  => 'holger',
+    mode   => '0755',
+  }
+  file { '/storage':
+    ensure => directory,
+  }
 
   # The quotes database lives under /storage; make sure the citat
   # directory exists locally too.
