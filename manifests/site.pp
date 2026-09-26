@@ -53,7 +53,13 @@ node 'insidan.holgerspexet.se' {
   class { 'lyslogclient':
     forward_to_loghost => true,
   }
-  include ::paragrafryttare
+  # Parked: small py3.6-era flask/uwsgi board tool (gitlab repo, deploy
+  # token baked into its clone URL). No other module depends on it.
+  # To revive: uncomment, modernize the module for 26.04 (py3 packages,
+  # venv instead of pip --install-option / python3.6 paths) and rotate
+  # the gitlab deploy token out of the URL.
+  #include ::paragrafryttare
+
   include ::inventarie
 }
 
